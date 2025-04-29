@@ -16,7 +16,7 @@ app.get("/products", ProductController.getProduct)
 app.get("/products/:id", ProductController.getProductById);
 app.post("/products", ProductController.postProduct);
 app.put("/products/:id", ProductController.putProductById);
-// app.delete("/products/:id", ProductController.deleteProductById);
+app.delete("/products/:id", ProductController.deleteProductById);
 
 
 

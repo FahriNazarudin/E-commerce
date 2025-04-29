@@ -48,4 +48,20 @@ module.exports = class ProductController {
       res.status(500).json({ message: `Internal Server Error` });
     }
   }
+
+  static async deleteProductById(req, res) {
+    try {
+      const id = req.params.id;
+      const products = await Product.findByPk(id);
+      if (!products) {
+        res.status(404).json({ message: `Product id:${id} not found` });
+      } else {
+        await products.destroy();
+        res.status(200).json({ message: `Product id:${id} success to deleted` });
+      }
+    } catch (error) {
+      console.log(error, "delete product by ID");
+      res.status(500).json({ message: `Internal Server Error` });
+    }
+  }
 };
