@@ -16,14 +16,18 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        onUpdate: "cascade",
+        onDelete: "cascade",
       },
-      ProductId: {
+      productId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: "Products",
           key: "id",
         },
+        onUpdate: "cascade",
+        onDelete: "cascade",
       },
       quantity: {
         type: Sequelize.INTEGER,

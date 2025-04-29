@@ -16,12 +16,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       phoneNumber: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       password: {
         type: Sequelize.STRING
       },
-      adress: {
+      address: {
         type: Sequelize.STRING
       },
       createdAt: {

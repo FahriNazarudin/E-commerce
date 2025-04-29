@@ -98,6 +98,5 @@ CardProduct.propTypes = {
     stock: PropTypes.number,
     imgUrl: PropTypes.string,
     categoryId: PropTypes.number,
-    userId: PropTypes.number,
   }).isRequired,
 };

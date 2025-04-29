@@ -6,7 +6,8 @@
       "price": 1029000,
       "stock": 587,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522920/hacktiv8/branded/cubic-lemari-pakaian-minimalis-wardrobe-baju-luna-lpm-301-sonomabl-grey-qswxtjtx14i.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 24,
@@ -15,7 +16,8 @@
       "price": 98800,
       "stock": 71,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522930/hacktiv8/branded/rinso-matic-deterjen-cair-mesin-bukaan-depan-1.45l-twin-pack-9tgfl9aox1q.jpg",
-      "categoryId": 6
+      "categoryId": 6,
+      "userId": 1 
     },
     {
       "id": 25,
@@ -24,7 +26,8 @@
       "price": 4770000,
       "stock": 95,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522934/hacktiv8/branded/lemari-pakaian-sliding-hpl-200-putih-glossy-putihglossy1-coscylrfaz.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 26,
@@ -33,7 +36,8 @@
       "price": 2650000,
       "stock": 100,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522935/hacktiv8/branded/gerobak-mie-ayam-y36yeppos1.jpg",
-      "categoryId": 8
+      "categoryId": 8,
+      "userId": 1 
     },
     {
       "id": 46,
@@ -42,7 +46,8 @@
       "price": 2650000,
       "stock": 987,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522984/hacktiv8/branded/lemari-pakaian-hpl-sliding-transparan-gamis-longdress-walk-in-closet-cokat-tua-kayu-caubqirl86.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 23,
@@ -51,7 +56,8 @@
       "price": 1513000,
       "stock": 42,
       "imgUrl": "https://ik.imagekit.io/3zpysfovqw/phase2/challenge/all-in-one/emily-armstrong_nuf0WhKY-.jpeg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 29,
@@ -60,7 +66,8 @@
       "price": 11499,
       "stock": 1389,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522943/hacktiv8/branded/excel-500gr-makanan-kucing-cat-food-dry-salmon-t15qfiax4w9.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 30,
@@ -69,7 +76,8 @@
       "price": 2900000,
       "stock": 100,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522947/hacktiv8/branded/gerobak-soto-lamongan-gt9wevnewpf.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 31,
@@ -78,7 +86,8 @@
       "price": 2200000,
       "stock": 9948,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522957/hacktiv8/branded/lemari-pakaian-premium-full-cermin-scandinavian-frameless-sliding-90x50x180cm-im6roil2mu.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 32,
@@ -87,7 +96,8 @@
       "price": 2650000,
       "stock": 50,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522962/hacktiv8/branded/gerobak-soto-pikul-rombong-soto-kudus-46xmt73esbv.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 33,
@@ -96,7 +106,8 @@
       "price": 299900,
       "stock": 57,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522964/hacktiv8/branded/cooger-panda-dual-clean-mop-terbaru-2in1-spin-mop-pel-otomatis-v71xni9ds5s.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 47,
@@ -105,7 +116,8 @@
       "price": 90000,
       "stock": 1995,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522987/hacktiv8/branded/reffil-reed-diffuser-high-quality-eng-pear-%2Bsticks-fyvwngk6ch8.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 34,
@@ -114,7 +126,8 @@
       "price": 29880,
       "stock": 61,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522965/hacktiv8/branded/sendal-flat-selop-rumah-slipper-sandal-pria-wanita-karet-jelly-hsn150-150-putih-40-41-ga1ze6dmma5.jpg",
-      "categoryId": 4
+      "categoryId": 4,
+      "userId": 1 
     },
     {
       "id": 36,
@@ -123,7 +136,8 @@
       "price": 1153000,
       "stock": 85,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522972/hacktiv8/branded/antbox-lemari-pakaian-plastik-susun-putih-minimalis-lemari-baju-6-box-1-hanger-t1z1uaixj6.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 37,
@@ -132,7 +146,8 @@
       "price": 349000,
       "stock": 998,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522974/hacktiv8/branded/sepatu-casual-nike-af1-mlb-white-black-sneakers-kets-new-mlb-white-black-%28size-39%29-0kn866td4u3.jpg",
-      "categoryId": 4
+      "categoryId": 4,
+      "userId": 1 
     },
     {
       "id": 38,
@@ -141,7 +156,8 @@
       "price": 45000,
       "stock": 296,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522975/hacktiv8/branded/zacro-penutup-kaca-depan-mobil-pelindung-panas-sun-shield-kaca-mobil-145cm-x-80cm-ilirx4luour.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 39,
@@ -150,7 +166,8 @@
       "price": 342000,
       "stock": 499,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522976/hacktiv8/branded/zacro-y80-intercom-helm-bluetooth-chip-qualcomm-waterproof-ipx6-83zrk6ds8wh.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 128,
@@ -159,7 +176,8 @@
       "price": 995280,
       "stock": 13,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523153/hacktiv8/branded/lampu-gantung-plafon-kipas-angin-minimalis-modern-body-white-tipe-b-joqracufb2d.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 40,
@@ -168,7 +186,8 @@
       "price": 55000,
       "stock": 104,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522977/hacktiv8/branded/cuka-apel-organik-1-liter-apple-cider-vinegar-premium-with-the-mother-cuka-2-x-500ml-j4dhv1t0psh.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 41,
@@ -177,7 +196,8 @@
       "price": 287000,
       "stock": 3,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522979/hacktiv8/branded/crocs-swifwater-mesh-deck-navy-orange-m10-a4yc97lwdsp.jpg",
-      "categoryId": 4
+      "categoryId": 4,
+      "userId": 1 
     },
     {
       "id": 42,
@@ -186,7 +206,8 @@
       "price": 27500,
       "stock": 12,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522980/hacktiv8/branded/ej-mainan-balok-susun-panda-park-nano-block-mainan-anak-edukasi-panda-1-5n2o0qeg3t4.jpg",
-      "categoryId": 11
+      "categoryId": 11,
+      "userId": 1 
     },
     {
       "id": 43,
@@ -195,7 +216,8 @@
       "price": 2386000,
       "stock": 18,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522981/hacktiv8/branded/antbox-smart-display-box-kotak-sepatu-otomatis-dengan-remote-control-p6jiolo8k.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 44,
@@ -204,7 +226,8 @@
       "price": 390000,
       "stock": 1,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522982/hacktiv8/branded/nike-airmax-1-easy-on-pulse-sepatu-anak-yc38wxu7i19.jpg",
-      "categoryId": 4
+      "categoryId": 4,
+      "userId": 1 
     },
     {
       "id": 45,
@@ -213,7 +236,8 @@
       "price": 1869000,
       "stock": 17,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522983/hacktiv8/branded/antbox-lemari-pakaian-putih-12-box-2-hanger-lemari-baju-minimalis-pwk2qtwipse.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 48,
@@ -222,7 +246,8 @@
       "price": 1153000,
       "stock": 85,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522988/hacktiv8/branded/antbox-lemari-pakaian-plastik-susun-putih-minimalis-lemari-baju-6-box-1-hanger-1h8115w9cta.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 49,
@@ -231,7 +256,8 @@
       "price": 2499900,
       "stock": 18,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522990/hacktiv8/branded/sapporo-bologna-lemari-pakaian-besi-3-pintu-or-steel-wardrobe-3-doors-rainbow-lc587d6e0p.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 50,
@@ -240,7 +266,8 @@
       "price": 165000,
       "stock": 347,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522992/hacktiv8/branded/refill-reed-diffuser-oil-ready-to-use-250ml-hidden-gem-bn9glzla7ok.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 51,
@@ -249,7 +276,8 @@
       "price": 2323000,
       "stock": 12,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522995/hacktiv8/branded/antbox-lemari-penyimpanan-helm-rak-organizer-serbaguna-14-box-9idvs30tw9m.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 52,
@@ -258,7 +286,8 @@
       "price": 4300000,
       "stock": 75,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523000/hacktiv8/branded/lemari-pakaian-hpl-sliding-4-pintu-putih-glossy%2Bkaca-2-pintu-lps-402-putih-glossy-ei3lnsivun.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 129,
@@ -267,7 +296,8 @@
       "price": 142465,
       "stock": 7,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523156/hacktiv8/branded/friskies-adult-meaty-grills-grill-3kg-hqocr9vil3i.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 53,
@@ -276,7 +306,8 @@
       "price": 1202000,
       "stock": 5,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523002/hacktiv8/branded/antbox-lemari-pakaian-putih-susun-plastik-minimalis-lemari-baju-6-box-full-ghv1xgxro.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 54,
@@ -285,7 +316,8 @@
       "price": 3953000,
       "stock": 5,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523004/hacktiv8/branded/infinix-gt-20-pro-5g-8256gb-vd9nue4baus.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 55,
@@ -294,7 +326,8 @@
       "price": 3850000,
       "stock": 80,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523006/hacktiv8/branded/lemari-pakaian-hpl%2Bkaca-sliding-3-pintu-putih-glossy-su07yp2nda.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 56,
@@ -303,7 +336,8 @@
       "price": 6850000,
       "stock": 3,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523007/hacktiv8/branded/iphone-12-pro-pacific-blue-128gb-yqe0b3bew.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 69,
@@ -312,7 +346,8 @@
       "price": 249916,
       "stock": 6,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523041/hacktiv8/branded/sepatu-formal-pantofel-pria-kulit-slop-kerja-kantor-kuliah-zx-aj-aj-7504-sgb-43-2wmcc74px3n.jpg",
-      "categoryId": 4
+      "categoryId": 4,
+      "userId": 1 
     },
     {
       "id": 57,
@@ -321,7 +356,8 @@
       "price": 2650000,
       "stock": 987,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523013/hacktiv8/branded/lemari-pakaian-hpl-sliding-transparan-gamis-longdress-walk-in-closet-coklat-tua-kayu-8vrxtv6fcxf.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 58,
@@ -330,7 +366,8 @@
       "price": 3745000,
       "stock": 10,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523014/hacktiv8/branded/oppo-reno-11f-5g-8256-ram-8gb-rom-256gb-palm-green-gi4bz5j7z5c.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 59,
@@ -339,7 +376,8 @@
       "price": 149000,
       "stock": 77,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523016/hacktiv8/branded/ngy-tornado-desk-fan-kipas-angin-meja-lantai-besi-8-inch-or-ng-8tdf-mkw8o9bcj9n.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 60,
@@ -348,7 +386,8 @@
       "price": 28900,
       "stock": 707,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523018/hacktiv8/branded/citronella-sereh-wangi-essential-oil-100percent-murni-5n8c2fpwil.jpg",
-      "categoryId": 6
+      "categoryId": 6,
+      "userId": 1 
     },
     {
       "id": 61,
@@ -357,7 +396,8 @@
       "price": 256500,
       "stock": 9,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523024/hacktiv8/branded/racing-belt-sss-for-all-vespa-3v-and-2v-150cc-gzcr0s0vpv.jpg",
-      "categoryId": 10
+      "categoryId": 10,
+      "userId": 1 
     },
     {
       "id": 62,
@@ -366,7 +406,8 @@
       "price": 1690000,
       "stock": 80,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523027/hacktiv8/branded/lemari-baju-besi-lemari-pakaian-besi-sliding-motif-marmer-a15-vzhqicqu0or.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 63,
@@ -375,7 +416,8 @@
       "price": 1153000,
       "stock": 85,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523028/hacktiv8/branded/antbox-lemari-pakaian-plastik-susun-putih-minimalis-lemari-baju-6-box-1-hanger-5ioirjnjsvj.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 64,
@@ -384,7 +426,8 @@
       "price": 270000,
       "stock": 83,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523031/hacktiv8/branded/sss-cvt-paket-kirian-vbelt-roller-vespa-s-3v-lx125-3v-4a54rqfqepd.jpg",
-      "categoryId": 10
+      "categoryId": 10,
+      "userId": 1 
     },
     {
       "id": 65,
@@ -393,7 +436,8 @@
       "price": 875000,
       "stock": 48,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523036/hacktiv8/branded/lemari-plastik-lipat-napollylemari-pakaian-lipat-minimalispolicabine-3211-4k4qvwhlfq3.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 66,
@@ -402,7 +446,8 @@
       "price": 2323000,
       "stock": 12,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523037/hacktiv8/branded/antbox-lemari-penyimpanan-helm-rak-organizer-serbaguna-14-box-skgkirglwc.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 67,
@@ -411,7 +456,8 @@
       "price": 100000,
       "stock": 1,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523038/hacktiv8/branded/buku-langka-gola-gong-:-kutunggu-di-yogya-dsg5s3vuxn.jpg",
-      "categoryId": 12
+      "categoryId": 12,
+      "userId": 1 
     },
     {
       "id": 68,
@@ -420,7 +466,8 @@
       "price": 2650000,
       "stock": 987,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523039/hacktiv8/branded/lemari-pakaian-hpl-sliding-transparan-gamis-longdress-walk-in-closet-cokat-tua-kayu-h3cv8y2wwr.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 70,
@@ -429,7 +476,8 @@
       "price": 100000,
       "stock": 1,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523043/hacktiv8/branded/buku-wacana-musim-panas-1990-qkhmowyc8fb.jpg",
-      "categoryId": 12
+      "categoryId": 12,
+      "userId": 1 
     },
     {
       "id": 71,
@@ -438,7 +486,8 @@
       "price": 2499900,
       "stock": 18,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523046/hacktiv8/branded/sapporo-bologna-lemari-pakaian-besi-3-pintu-or-steel-wardrobe-3-doors-rainbow-bj2nbikq404.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 72,
@@ -447,7 +496,8 @@
       "price": 249916,
       "stock": 50,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523047/hacktiv8/branded/zeintin-sepatu-pantofel-pria-formal-kerja-kantoran-aj-aj-7502-38-16wzwthab2l.jpg",
-      "categoryId": 4
+      "categoryId": 4,
+      "userId": 1 
     },
     {
       "id": 73,
@@ -456,7 +506,8 @@
       "price": 100000,
       "stock": 1,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523048/hacktiv8/branded/buku-peperangan-kerajaan-di-nusantara-by-capt.r.-p.suyono-qd6d7s2fxpk.jpg",
-      "categoryId": 12
+      "categoryId": 12,
+      "userId": 1 
     },
     {
       "id": 74,
@@ -465,7 +516,8 @@
       "price": 4300000,
       "stock": 75,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523050/hacktiv8/branded/lemari-pakaian-hpl-sliding-4-pintu-putih-glossy%2Bkaca-2-pintu-lps-402-putih-glossy-1-56rvj5h6wvr.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 75,
@@ -474,7 +526,8 @@
       "price": 298000,
       "stock": 96,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523053/hacktiv8/branded/back-rack-vespa-lx-s-gts-primavera-dan-sprint-plus-bantalan-busa-cromecoklatlis-sprint-pjelycy3xu.jpg",
-      "categoryId": 10
+      "categoryId": 10,
+      "userId": 1 
     },
     {
       "id": 76,
@@ -483,7 +536,8 @@
       "price": 73000,
       "stock": 232,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523056/hacktiv8/branded/lappy-stand-holder-laptop-ergonomic-09fghv3gbeht.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 77,
@@ -492,7 +546,8 @@
       "price": 3299900,
       "stock": 18,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523059/hacktiv8/branded/sapporo-licata-lemari-pakaian-besi-4-pintu-or-steel-wardrobe-4-doors-romawi-cy9ljbjgml5.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 79,
@@ -501,7 +556,8 @@
       "price": 6900,
       "stock": 250,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523062/hacktiv8/branded/hook-gantungan-baju-serbaguna-tempel-kuat-dinding-tembok-dapur-magic-hook-b-silver-putih-95gyfgnjnn.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 80,
@@ -510,7 +566,8 @@
       "price": 1153000,
       "stock": 13,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523063/hacktiv8/branded/antbox-lemari-pakaian-putih-6-box-1-hanger-lemari-baju-minimalis-wl8agiirdrm.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 81,
@@ -519,7 +576,8 @@
       "price": 445000,
       "stock": 2,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523068/hacktiv8/branded/batok-lampu-vespa-lxv-ori-abr5la559sj.jpg",
-      "categoryId": 10
+      "categoryId": 10,
+      "userId": 1 
     },
     {
       "id": 82,
@@ -528,7 +586,8 @@
       "price": 73000,
       "stock": 232,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523070/hacktiv8/branded/laptop-stand-milenial-aluminium-holder-meja-macbook-alas-notebook-ipad-ag1ium0tuto.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 83,
@@ -537,7 +596,8 @@
       "price": 1199000,
       "stock": 2,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523071/hacktiv8/branded/olympic-palazio-lemari-pakaian-baju-2-and-3-pintu-minimalis-jumbo-dengan-gantungan-and-cermin-2-pint-mjtyt0tpgul.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 84,
@@ -546,7 +606,8 @@
       "price": 78000,
       "stock": 484,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523074/hacktiv8/branded/reed-diffuser-sweet-dew-%28geranium%29-50ml-essential-oil-aromatherapy-fiber-hitam-nvyzwcncd4r.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 85,
@@ -555,7 +616,8 @@
       "price": 259000,
       "stock": 5,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523075/hacktiv8/branded/sandal-selop-pria-gold-pigeon-ultralite-westep-g9385m-moonrock-brown-44-xl3x63rt2m.jpg",
-      "categoryId": 4
+      "categoryId": 4,
+      "userId": 1 
     },
     {
       "id": 86,
@@ -564,7 +626,8 @@
       "price": 174500,
       "stock": 4,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523076/hacktiv8/branded/premium-250gr-coffee-latte-fragrance-oil-pengahrum-humidifier-pure-lqev8xvfpz.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 87,
@@ -573,7 +636,8 @@
       "price": 299000,
       "stock": 125,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523078/hacktiv8/branded/kipas-angin-plafon-nagoya-%28ceiling-fan%29-56%22-baling-besi-ng56cf-putih-wuizgges8ve.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 88,
@@ -582,7 +646,8 @@
       "price": 45000,
       "stock": 100,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523079/hacktiv8/branded/gosso-kayu-putih-essential-oil-stainless-roll-on-travel-size-10ml-y6egta602c.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 89,
@@ -591,7 +656,8 @@
       "price": 1900000,
       "stock": 40,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523082/hacktiv8/branded/citihome-bladeless-stand-cooling-fan-remote-kipas-angin-tanpa-baling-white-silver-f2f8d3wob4v.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 90,
@@ -600,7 +666,8 @@
       "price": 43000,
       "stock": 27,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523084/hacktiv8/branded/premium-50gr-cinnamon-fragrance-oil-panegharum-reed-diffuser-pure-9uxgl0ycaac.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 91,
@@ -609,7 +676,8 @@
       "price": 18500,
       "stock": 91,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523085/hacktiv8/branded/coucou-halycon-wet-food-kaleng-400gr-makanan-basah-kucing-tuna-kitten-vzi1ccg1pq.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 92,
@@ -618,7 +686,8 @@
       "price": 3700,
       "stock": 1239,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523086/hacktiv8/branded/makanan-kucing-basah-life-cat-85gr-kitten-adult-capt-salmon-kit-nzi00jeat7i.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 93,
@@ -627,7 +696,8 @@
       "price": 54000,
       "stock": 23,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523088/hacktiv8/branded/supercat-pouch-1-dus-%28isi-12%29-adult-and-kitten-all-variant-tuna-chicken-ujb6lu9ggq.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 94,
@@ -636,7 +706,8 @@
       "price": 324000,
       "stock": 9996,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523090/hacktiv8/branded/1-dus-life-cat-400gr-kaleng-makanan-kucing-basah-chicken-salmon-e0qashs5sq7.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 95,
@@ -645,7 +716,8 @@
       "price": 11950,
       "stock": 0,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523092/hacktiv8/branded/makanan-kucing-basah-ori-cat-kaleng-wet-food-400-gram-tunaandshrimp-79o473xn8hl.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 96,
@@ -654,7 +726,8 @@
       "price": 7167000,
       "stock": 4,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523093/hacktiv8/branded/kuvings-evo820-whole-slow-juicer-kuvings-evo-matt-820-dark-red-e12hiigywdo.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 97,
@@ -663,7 +736,8 @@
       "price": 95130,
       "stock": 872,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523094/hacktiv8/branded/simbalion-watercolor-cake-36-warna-k9xuq3epb2s.jpg",
-      "categoryId": 21
+      "categoryId": 21,
+      "userId": 1 
     },
     {
       "id": 98,
@@ -672,7 +746,8 @@
       "price": 85000,
       "stock": 125,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523096/hacktiv8/branded/somethinc-hangover-voluminous-fiber-lash-smudgeproof-mascara-5zcurhbzg7l.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 99,
@@ -681,7 +756,8 @@
       "price": 217550,
       "stock": 5,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523098/hacktiv8/branded/flimeal-by-flimty-susu-sereal-pengganti-makanan-diet-pelangsing-strawberi-li3cxvijmr9.jpg",
-      "categoryId": 6
+      "categoryId": 6,
+      "userId": 1 
     },
     {
       "id": 100,
@@ -690,7 +766,8 @@
       "price": 24900,
       "stock": 677,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523099/hacktiv8/branded/kraft-keju-cake-bolu-keju-16-gr-1-box-isi-12-pcs-uyct66rxitb.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 101,
@@ -699,7 +776,8 @@
       "price": 4692,
       "stock": 2352,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523100/hacktiv8/branded/makanan-kucing-basah-lifecat-life-cat-pouchsaset-85g-adult-chicken-tuna-1gug3vbgvao.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 102,
@@ -708,7 +786,8 @@
       "price": 35000,
       "stock": 11848,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523103/hacktiv8/branded/ikan-dori-fillet-lokal-grade-a-%281-kg%29-3rcisv4svy4.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 103,
@@ -717,7 +796,8 @@
       "price": 1869000,
       "stock": 138,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523105/hacktiv8/branded/antbox-lemari-pakaian-plastik-12-kabinet-2-hanger-putih-minimalis-ev2if6dop1c.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 104,
@@ -726,7 +806,8 @@
       "price": 55000,
       "stock": 175,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523106/hacktiv8/branded/kacang-hitam-1-kg-black-bean-1kg-import-impor-xh1okniyp9m.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 105,
@@ -735,7 +816,8 @@
       "price": 1638000,
       "stock": 6,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523107/hacktiv8/branded/antbox-lemari-pakaian-putih-10-box-1-hanger-lemari-baju-minimalis-qd07fp88a2.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 106,
@@ -744,7 +826,8 @@
       "price": 290000,
       "stock": 9884,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523109/hacktiv8/branded/herslim-dari-herwell-susu-diet-n736v0g8ce.jpg",
-      "categoryId": 6
+      "categoryId": 6,
+      "userId": 1 
     },
     {
       "id": 107,
@@ -753,7 +836,8 @@
       "price": 156000,
       "stock": 144,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523111/hacktiv8/branded/kipas-angin-berdiri-tornado-besi-3in1-18inch-n2loglxigtb.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 108,
@@ -762,7 +846,8 @@
       "price": 90640,
       "stock": 909,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523114/hacktiv8/branded/wiper-mobil-toyota-innova-reborn-26%22-%2B-16%22-%282pcs%29-hella-premium-2.0-z9nbobvv73a.jpg",
-      "categoryId": 10
+      "categoryId": 10,
+      "userId": 1 
     },
     {
       "id": 109,
@@ -771,7 +856,8 @@
       "price": 189000,
       "stock": 44,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523116/hacktiv8/branded/lampu-led-mobil-headlight-h4-h7-60w-9000lumens-6000k-h7-eho5dwjogrb.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 110,
@@ -780,7 +866,8 @@
       "price": 239000,
       "stock": 218,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523117/hacktiv8/branded/kipas-angin-dinding-nagoya-%28wall-fan%29-baling-besi-18-dmdw0b5kd37.jpg",
-      "categoryId": 10
+      "categoryId": 10,
+      "userId": 1 
     },
     {
       "id": 111,
@@ -789,7 +876,8 @@
       "price": 851400,
       "stock": 6,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523118/hacktiv8/branded/aki-mobil-hella-xcelerate-pro-ams-46b19l-aki-mobil-kering-ik7ruq2ulxm.jpg",
-      "categoryId": 10
+      "categoryId": 10,
+      "userId": 1 
     },
     {
       "id": 112,
@@ -798,7 +886,8 @@
       "price": 342000,
       "stock": 10,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523125/hacktiv8/branded/led-autovision-xandway-30-watt-h4-h7-h11-h16-h8-h27-hb3-hb4-kuning-2800k-h27-n6vzfpddgk8.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 113,
@@ -807,7 +896,8 @@
       "price": 1590000,
       "stock": 8,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523128/hacktiv8/branded/lemari-baju-besi-lemari-pakaian-besi-sliding-2-pintu-3-pintu-sl-202c-29m7jm1vagn.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 114,
@@ -816,7 +906,8 @@
       "price": 77000,
       "stock": 806,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523129/hacktiv8/branded/wiper-mobil-honda-brio-br-v-mobilio-22%22%2B16%22%282pcs%29-hella-premium-2.0-xub7aka5l5n.jpg",
-      "categoryId": 10
+      "categoryId": 10,
+      "userId": 1 
     },
     {
       "id": 115,
@@ -825,7 +916,8 @@
       "price": 395000,
       "stock": 178,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523131/hacktiv8/branded/pristine-maldives-villa-reed-diffuser-180ml-hotel-series-c18sts5j7ng.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 116,
@@ -834,7 +926,8 @@
       "price": 249000,
       "stock": 19,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523133/hacktiv8/branded/milife-turbo-high-speed-fan-semiconductor-cooling-with-phone-stand-100-speed-4800mah-rechargeable-po-3xxaeehfb5m.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 117,
@@ -843,7 +936,8 @@
       "price": 297000,
       "stock": 72,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523135/hacktiv8/branded/pure-freesiae-pyrus-fragrance-limited-edition-for-bloomaire-mmawvegid3.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 118,
@@ -852,7 +946,8 @@
       "price": 149000,
       "stock": 6,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523136/hacktiv8/branded/rak-botol-essential-oil-and-diffuser-sparkle-brown-u4wiim4d8r.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 119,
@@ -861,7 +956,8 @@
       "price": 28000,
       "stock": 500,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523139/hacktiv8/branded/sambal-sambel-geprek-monsera-140gr-level-5-pps7e6x8qlf.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 127,
@@ -870,7 +966,8 @@
       "price": 299000,
       "stock": 18,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523151/hacktiv8/branded/philips-tauh202-black-wireless-on-ear-headphones-with-mic-tauh-202-w8cmievay3.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 120,
@@ -879,7 +976,8 @@
       "price": 228000,
       "stock": 191,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523140/hacktiv8/branded/reed-diffuser-classic-100ml-by-le-havre-osmanthusandgreen-zi7cb58v6fd.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 121,
@@ -888,7 +986,8 @@
       "price": 49000,
       "stock": 9859,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523141/hacktiv8/branded/by-ncc-sambal-cumi-pedas-160gr-sxh99k49l2.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 122,
@@ -897,7 +996,8 @@
       "price": 31000,
       "stock": 127,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523142/hacktiv8/branded/dahlia-heritage-series-reed-diffuser-refill-teh-keraton-30-ml-8hfw2zkd1rh.jpg",
-      "categoryId": 5
+      "categoryId": 5,
+      "userId": 1 
     },
     {
       "id": 123,
@@ -906,7 +1006,8 @@
       "price": 394684,
       "stock": 5,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523144/hacktiv8/branded/pro-plan-proplan-indoor-hairball-control-cat-3kg-46yfubi5bhw.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 124,
@@ -915,7 +1016,8 @@
       "price": 2499000,
       "stock": 3,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523147/hacktiv8/branded/nuphy-halo-96-wireless-hot-swappable-mechanical-keyboard-ionic-white-rose-glacier-zv05gywof1e.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 125,
@@ -924,7 +1026,8 @@
       "price": 1900000,
       "stock": 40,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523149/hacktiv8/branded/citihome-bladeless-stand-cooling-fan-remote-kipas-angin-tanpa-baling-white-silver-qf5d6vwp7yb.jpg",
-      "categoryId": 7
+      "categoryId": 7,
+      "userId": 1 
     },
     {
       "id": 126,
@@ -933,7 +1036,8 @@
       "price": 107100,
       "stock": 8,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523151/hacktiv8/branded/pasir-kucing-gumpal-top-25l-lavender-tanpa-plastik-ngvykmodrh.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 130,
@@ -942,7 +1046,8 @@
       "price": 1429000,
       "stock": 55,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523159/hacktiv8/branded/sony-wf-c700n-white-noise-cancelling-truly-wireless-wfc700n-d2omy0kiy6r.jpg",
-      "categoryId": 1
+      "categoryId": 1,
+      "userId": 1 
     },
     {
       "id": 131,
@@ -951,7 +1056,8 @@
       "price": 217550,
       "stock": 5,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523160/hacktiv8/branded/flimeal-by-flimty-susu-sereal-pengganti-makanan-diet-pelangsing-strawberi-luy61tyihk8.jpg",
-      "categoryId": 6
+      "categoryId": 6,
+      "userId": 1 
     },
     {
       "id": 132,
@@ -960,7 +1066,8 @@
       "price": 24900,
       "stock": 677,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523161/hacktiv8/branded/kraft-keju-cake-bolu-keju-16-gr-1-box-isi-12-pcs-p2fxf1ft29f.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 133,
@@ -969,7 +1076,8 @@
       "price": 4692,
       "stock": 2352,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523163/hacktiv8/branded/makanan-kucing-basah-lifecat-life-cat-pouchsaset-85g-adult-chicken-tuna-09s54op8fhs7.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 134,
@@ -978,7 +1086,8 @@
       "price": 35000,
       "stock": 11848,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523164/hacktiv8/branded/ikan-dori-fillet-lokal-grade-a-%281-kg%29-wcz0qo10vxi.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 135,
@@ -987,7 +1096,8 @@
       "price": 1869000,
       "stock": 138,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523165/hacktiv8/branded/antbox-lemari-pakaian-plastik-12-kabinet-2-hanger-putih-minimalis-wq1ne7vh44d.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 136,
@@ -996,7 +1106,8 @@
       "price": 55000,
       "stock": 175,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523166/hacktiv8/branded/kacang-hitam-1-kg-black-bean-1kg-import-impor-czyspdexldi.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 137,
@@ -1005,7 +1116,8 @@
       "price": 1638000,
       "stock": 6,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523167/hacktiv8/branded/antbox-lemari-pakaian-putih-10-box-1-hanger-lemari-baju-minimalis-4migpn8fcat.jpg",
-      "categoryId": 2
+      "categoryId": 2,
+      "userId": 1 
     },
     {
       "id": 138,
@@ -1014,7 +1126,8 @@
       "price": 290000,
       "stock": 9884,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523168/hacktiv8/branded/herslim-dari-herwell-susu-diet-hl0cotsagl.jpg",
-      "categoryId": 6
+      "categoryId": 6,
+      "userId": 1 
     },
     {
       "id": 139,
@@ -1023,7 +1136,8 @@
       "price": 1099000,
       "stock": 4,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523169/hacktiv8/branded/sepatu-basket-nike-lebron-witness-vii-ep-dm1122500-ori-42.5-bd4ynpr4zgq.jpg",
-      "categoryId": 4
+      "categoryId": 4,
+      "userId": 1 
     },
     {
       "id": 140,
@@ -1032,7 +1146,8 @@
       "price": 24900,
       "stock": 677,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523170/hacktiv8/branded/kraft-keju-cake-bolu-keju-16-gr-1-box-isi-12-pcs-kzgotrud09.jpg",
-      "categoryId": 20
+      "categoryId": 20,
+      "userId": 1 
     },
     {
       "id": 141,
@@ -1041,7 +1156,8 @@
       "price": 4692,
       "stock": 2352,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523171/hacktiv8/branded/makanan-kucing-basah-lifecat-life-cat-pouch-85g-adult-chicken-tuna-0ie8n6wtegeo.jpg",
-      "categoryId": 16
+      "categoryId": 16,
+      "userId": 1 
     },
     {
       "id": 142,
@@ -1050,7 +1166,8 @@
       "price": 1299000,
       "stock": 1,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523174/hacktiv8/branded/sepatu-basket-adidas-adizero-select-ig5336-original-40.5-7oiy4qbhf4b.jpg",
-      "categoryId": 4
+      "categoryId": 4,
+      "userId": 1 
     },
     {
       "id": 144,
@@ -1059,7 +1176,8 @@
       "price": 1849000,
       "stock": 1,
       "imgUrl": "https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723523176/hacktiv8/branded/sepatu-basket-curry-11-future-3027416100-original-46-lw0nzc2vgr.jpg",
-      "categoryId": 4
+      "categoryId": 4,
+      "userId": 1 
       
     }
   ]
