@@ -3,58 +3,46 @@ const { signToken } = require("../helpers/jwt");
 const { User } = require("../models");
 
 module.exports = class UserController {
-  static async register(req, res) {
+  static async register(req, res, next) {
     try {
-      console.log(req.user);
-
-      const user = await User.create(req.body);
+      const { userName, email, password } = req.body;
+      if (!userName || !email || !password) {
+        throw {
+          name: "BadRequestError",
+          message: "Required fields are missing",
+        };
+      }
+      const user = await User.create({ userName, email, password });
       res.status(201).json({
         userName: user.userName,
         email: user.email,
       });
     } catch (error) {
-      console.log(error, "error register");
-      if (
-        error.name === "SequelizeUniqueConstraintError" ||
-        error.name === "SequelizeValidationError"
-      ) {
-        res.status(400).json({ message: error.errors[0] });
-        console.log(error.errors[0].message, "<<<<<<");
-      } else {
-        res.status(500).json({ message: `Internal Server Error` });
-      }
+      next(error);
     }
   }
 
-  static async login(req, res) {
-    const { email, password } = req.body;
-
-    if (!email) {
-        res.status(400).json({ name: "ValidationError", message: "Email is required" });
-    }
-    if (!password) {
-        res
-        .status(400)
-        .json({ name: "ValidationError", message: "Password is required" });
-    }
-    
+  static async login(req, res, next) {
     try {
+      const { email, password } = req.body;
+      if (!email) {
+        throw { name: "ValidationError", message: "Email is required" };
+      }
+      if (!password) {
+        throw { name: "ValidationError", message: "Password is required" };
+      }
       const user = await User.findOne({ where: { email } });
       if (!user) {
-        res.status(401).json({ message: "Invalid email/password" }) 
+        throw { name: "UnauthorizedError", message: "Invalid email/password" };
       }
-      const isValiPassword = comparePassword(password, user.password);
-      if (!isValiPassword) {
-        res.status(401).json({ message: "Invalid email/password" }); 
-        return
+      const isValidPassword = comparePassword(password, user.password);
+      if (!isValidPassword) {
+        throw { name: "UnauthorizedError", message: "Invalid email/password" };
       }
       const access_token = signToken({ id: user.id });
-      res.status(200).json({
-        access_token,
-      });
+      res.status(200).json({ access_token });
     } catch (error) {
-      console.log(error, "<<<< Error Login");
-
+      next(error);
     }
   }
 };

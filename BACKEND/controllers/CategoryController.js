@@ -1,54 +1,77 @@
-const { Category } = require('../models')
- 
+const { Category } = require("../models");
+
 module.exports = class CategoryController {
-  static async getCategory(req, res) {
+  static async getCategory(req, res, next) {
     try {
       const categories = await Category.findAll();
-      res.status(201).json(categories);
+      res.status(200).json(categories); // Perbaiki status dari 201 ke 200
     } catch (error) {
-      console.log(error, "");
+      next(error);
     }
   }
 
-  static async postCategory(req, res) {
+  static async postCategory(req, res, next) {
     try {
-      const categories = await Category.create(req.body);
+      const { name } = req.body;
+      if (!name) {
+        throw { name: "BadRequestError", message: "Category name is required" };
+      }
+      const category = await Category.create({ name });
+      res.status(201).json(category);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getCategorybyId(req, res, next) {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        throw { name: "BadRequestError", message: "Invalid Category ID" };
+      }
+      const categories = await Category.findByPk(id);
+      if (!categories) {
+        throw { name: "NotFoundError", message: `Category id:${id} not found` };
+      }
       res.status(200).json(categories);
     } catch (error) {
-      console.log(error, "create category");
+      next(error);
     }
   }
 
-  static async updateCategoryById(req, res) {
+  static async updateCategoryById(req, res, next) {
     try {
-      const id = req.params.id;
-      const categories = await Category.findByPk(id);
-      if (!categories) {
-        throw { message: `Category id:${id} not found` };
-      } else {
-        await categories.update(req.body);
-        res.status(200).json({ message: `Category id:${id} updated` });
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        throw { name: "BadRequestError", message: "Invalid category ID" };
       }
+      const category = await Category.findByPk(id);
+      if (!category) {
+        throw { name: "NotFoundError", message: `Category id:${id} not found` };
+      }
+      await category.update(req.body);
+      res.status(200).json({ message: `Category id:${id} updated` });
     } catch (error) {
-      console.log(error, "error update category");
+      next(error);
     }
   }
 
-  static async deleteCategoryById(req, res) {
+  static async deleteCategoryById(req, res, next) {
     try {
-      const id = req.params.id;
-      const categories = await Category.findByPk(id);
-      if (!categories) {
-        res.status(404).json({ message: `Category id:${id} not found` });
-      } else {
-        await categories.destroy();
-        res
-          .status(200)
-          .json({ message: `Category id:${id} success to deleted` });
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        throw { name: "BadRequestError", message: "Invalid category ID" };
       }
+      const category = await Category.findByPk(id);
+      if (!category) {
+        throw { name: "NotFoundError", message: `Category id:${id} not found` };
+      }
+      await category.destroy();
+      res
+        .status(200)
+        .json({ message: `Category id:${id} successfully deleted` });
     } catch (error) {
-      console.log(error, "delete Category by ID");
-      res.status(500).json({ message: `Internal Server Error` });
+      next(error);
     }
   }
 };
