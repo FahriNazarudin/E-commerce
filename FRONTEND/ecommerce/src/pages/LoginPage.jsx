@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import "../assets/styles.css";
+
 import Swal from "sweetalert2";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("admin@mail.com");
   const [password, setPassword] = useState("123456");
-
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -48,7 +47,32 @@ const Login = () => {
     }
   };
 
+  async function handleCredentialResponse(response) {
+    console.log("Encoded JWT ID token: " + response.credential)
+    const { data } = await axios.post(
+      "https://h8-phase2-gc.vercel.app/apis/login",
+      {
+        gooleToken: response.credential,
+      }
+    );
+        localStorage.setItem("access_token", response.data.data.access_token);
+        navigate("/dashboard");
+  }
+
+  useEffect(() => {
+    window.google.accounts.id.initialize({
+      client_id:
+        "317464733823-uemlnh31l58sso7i0jl5fc0midusubj0.apps.googleusercontent.com",
+      callback: handleCredentialResponse,
+    });
+    window.google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large" } // customization attributes
+    );
+    window.google.accounts.id.prompt(); // also display the One Tap dialog
+  }, []);
   return (
+
     <div className="login-container">
       <h2 className="login-title">Login</h2>
       <form onSubmit={handleLogin} id="loginForm">
@@ -91,7 +115,10 @@ const Login = () => {
       <p className="text-center mt-3">
         Don't have an account? <Link to="/register">Register</Link>
       </p>
+
+      <div id="buttonDiv"></div>
     </div>
+
   );
 };
 
