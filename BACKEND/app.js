@@ -1,19 +1,20 @@
+require("dotenv").config();
+
 const express = require("express");
 const ProductController = require("./controllers/ProductController");
 const CategoryController = require("./controllers/CategoryController");
-
-
+const UserController = require("./controllers/UserController");
 
 const app = express();
 const port = 3000;
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-app.use(express.urlencoded({ extended: false}))
-app.use(express.json())
+app.post("/register", UserController.register);
+app.post("/login", UserController.login);
 
-
-
-app.get("/products", ProductController.getProduct)
+app.get("/products", ProductController.getProduct);
 app.get("/products/:id", ProductController.getProductById);
 app.post("/products", ProductController.postProduct);
 app.put("/products/:id", ProductController.putProductById);
@@ -23,8 +24,6 @@ app.get("/categories", CategoryController.getCategory);
 app.post("/categories", CategoryController.postCategory);
 app.put("/categories/:id", CategoryController.updateCategoryById);
 app.delete("/categories/:id", CategoryController.deleteCategoryById);
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

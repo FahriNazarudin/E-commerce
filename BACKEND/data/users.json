@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "userName": "admin",
+    "username": "admin",
     "email": "admin@example.com",
     "phoneNumber": "081234567890",
     "password": "admin123",
@@ -9,7 +9,7 @@
   },
   {
     "id": 2,
-    "userName": "user",
+    "username": "user",
     "email": "user@example.com",
     "phoneNumber": "081298765432",
     "password": "user123",
