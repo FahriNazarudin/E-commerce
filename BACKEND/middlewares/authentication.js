@@ -5,16 +5,16 @@ const authentication = async (req, res, next) => {
   try {
     const bearerToken = req.headers.authorization;
     if (!bearerToken) {
-      throw { name: "JsonWebTokenError", message: "No token provided" };
+      throw { name: "UnauthorizedError", message: "Unauthorized access" };
     }
     const accessToken = bearerToken.split(" ")[1];
     if (!accessToken) {
-      throw { name: "JsonWebTokenError", message: "Invalid token format" };
+      throw { name: "UnauthorizedError", message: "Unauthorized access" };
     }
     const data = verifyToken(accessToken);
     const user = await User.findByPk(data.id);
     if (!user) {
-      throw { name: "JsonWebTokenError", message: "User not found" };
+      throw { name: "UnauthorizedError", message: "Unauthorized access" };
     }
 
     req.user = {

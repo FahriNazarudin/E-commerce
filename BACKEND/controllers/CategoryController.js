@@ -4,7 +4,7 @@ module.exports = class CategoryController {
   static async getCategory(req, res, next) {
     try {
       const categories = await Category.findAll();
-      res.status(200).json(categories); // Perbaiki status dari 201 ke 200
+      res.status(200).json(categories);
     } catch (error) {
       next(error);
     }
@@ -14,7 +14,7 @@ module.exports = class CategoryController {
     try {
       const { name } = req.body;
       if (!name) {
-        throw { name: "BadRequestError", message: "Category name is required" };
+        throw { name: "ValidationError", message: "Category name is required" };
       }
       const category = await Category.create({ name });
       res.status(201).json(category);
@@ -27,13 +27,16 @@ module.exports = class CategoryController {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
-        throw { name: "BadRequestError", message: "Invalid Category ID" };
+        throw { name: "ValidationError", message: "Invalid category ID" };
       }
-      const categories = await Category.findByPk(id);
-      if (!categories) {
-        throw { name: "NotFoundError", message: `Category id:${id} not found` };
+      const category = await Category.findByPk(id);
+      if (!category) {
+        throw {
+          name: "NotFoundError",
+          message: `Category with ID ${id} not found`,
+        };
       }
-      res.status(200).json(categories);
+      res.status(200).json(category);
     } catch (error) {
       next(error);
     }
@@ -43,14 +46,23 @@ module.exports = class CategoryController {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
-        throw { name: "BadRequestError", message: "Invalid category ID" };
+        throw { name: "ValidationError", message: `Invalid category ${id}` };
+      }
+      const { name } = req.body;
+      if (!name) {
+        throw { name: "ValidationError", message: "Category name is required" };
       }
       const category = await Category.findByPk(id);
       if (!category) {
-        throw { name: "NotFoundError", message: `Category id:${id} not found` };
+        throw {
+          name: "NotFoundError",
+          message: `Category with ID ${id} not found`,
+        };
       }
-      await category.update(req.body);
-      res.status(200).json({ message: `Category id:${id} updated` });
+      await category.update({ name });
+      res
+        .status(200)
+        .json({ message: `Category with ID ${id} has been successfully updated` });
     } catch (error) {
       next(error);
     }
@@ -60,16 +72,20 @@ module.exports = class CategoryController {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
-        throw { name: "BadRequestError", message: "Invalid category ID" };
+        throw { name: "ValidationError", message: "Invalid category ID" };
       }
       const category = await Category.findByPk(id);
       if (!category) {
-        throw { name: "NotFoundError", message: `Category id:${id} not found` };
+        throw {
+          name: "NotFoundError",
+          message: `Category with ID ${id} not found`,
+        };
       }
       await category.destroy();
       res
         .status(200)
-        .json({ message: `Category id:${id} successfully deleted` });
+        .json({
+          message: `Category with ID ${id} has been successfully deleted` });
     } catch (error) {
       next(error);
     }

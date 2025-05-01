@@ -3,27 +3,29 @@ const { Cart, Product } = require("../models");
 module.exports = class CartController {
   static async postCart(req, res, next) {
     try {
-      const { ProductId, quantity } = req.body;
+      const { productId, quantity } = req.body;
       const userId = req.user.id;
 
-      if (!ProductId || !quantity || quantity <= 0) {
+      if (!productId || isNaN(productId)) {
+        throw { name: "ValidationError", message: "Invalid product ID" };
+      }
+      if (!quantity || isNaN(quantity) || quantity <= 0) {
         throw {
-          name: "BadRequestError",
-          message: "ProductId and quantity are required and must be positive",
+          name: "ValidationError",
+          message: "Quantity must be greater than 0",
         };
       }
 
-      const product = await Product.findByPk(ProductId);
+      const product = await Product.findByPk(productId);
       if (!product) {
         throw { name: "NotFoundError", message: "Product not found" };
       }
-
       if (product.stock < quantity) {
-        throw { name: "BadRequestError", message: "Insufficient stock" };
+        throw { name: "ValidationError", message: "Insufficient stock" };
       }
 
       let cartItem = await Cart.findOne({
-        where: { userId, ProductId },
+        where: { userId, productId },
       });
 
       if (cartItem) {
@@ -32,12 +34,12 @@ module.exports = class CartController {
       } else {
         cartItem = await Cart.create({
           userId,
-          ProductId,
+          productId,
           quantity,
         });
       }
 
-      res.status(201).json({ message: "Item added to cart", data: cartItem });
+      res.status(201).json({ message: "Item added to cart" });
     } catch (error) {
       next(error);
     }
@@ -55,6 +57,7 @@ module.exports = class CartController {
           },
         ],
       });
+
       res.status(200).json(cartItems);
     } catch (error) {
       next(error);
@@ -64,38 +67,33 @@ module.exports = class CartController {
   static async updateCartItem(req, res, next) {
     try {
       const id = parseInt(req.params.id);
-      const { quantity } = req.body;
-      const userId = req.user.id;
+      const { productId, quantity } = req.body;
 
       if (isNaN(id)) {
-        throw { name: "BadRequestError", message: "Invalid cart item ID" };
+        throw { name: "ValidationError", message: "Invalid cart ID" };
       }
-      if (!quantity || quantity <= 0) {
-        throw { name: "BadRequestError", message: "Quantity must be positive" };
+      if (!productId || isNaN(productId)) {
+        throw { name: "ValidationError", message: "Invalid product ID" };
       }
-
-      const cartItem = await Cart.findOne({
-        where: { id, userId },
-        include: [Product],
-      });
-
-      if (!cartItem) {
+      if (!quantity || isNaN(quantity) || quantity <= 0) {
         throw {
-          name: "NotFoundError",
-          message: `Cart item id:${id} not found`,
+          name: "ValidationError",
+          message: "Quantity must be greater than 0",
         };
       }
 
-      if (cartItem.Product.stock < quantity) {
-        throw { name: "BadRequestError", message: "Insufficient stock" };
+      const cart = await Cart.findByPk(id);
+      if (!cart) {
+        throw {
+          name: "NotFoundError",
+          message: `Cart with ID ${id} not found`
+        };
       }
 
-      cartItem.quantity = quantity;
-      await cartItem.save();
-
+      await cart.update({ productId, quantity });
       res
         .status(200)
-        .json({ message: `Cart item id:${id} updated`, data: cartItem });
+        .json({ message: `Cart with ID ${id} successfully updated` });
     } catch (error) {
       next(error);
     }
@@ -107,7 +105,7 @@ module.exports = class CartController {
       const userId = req.user.id;
 
       if (isNaN(id)) {
-        throw { name: "BadRequestError", message: "Invalid cart item ID" };
+        throw { name: "ValidationError", message: "ID Invalid cart" };
       }
 
       const cartItem = await Cart.findOne({
@@ -117,22 +115,14 @@ module.exports = class CartController {
       if (!cartItem) {
         throw {
           name: "NotFoundError",
-          message: `Cart item id:${id} not found`,
+          message: `Cart with ID ${id} not found`,
         };
       }
 
       await cartItem.destroy();
-      res.status(200).json({ message: `Cart item id:${id} deleted` });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async clearCart(req, res, next) {
-    try {
-      const userId = req.user.id;
-      await Cart.destroy({ where: { userId } });
-      res.status(200).json({ message: "Cart cleared successfully" });
+      res
+        .status(200)
+        .json({ message: `Cart with ID ${id} successfully deleted` });
     } catch (error) {
       next(error);
     }

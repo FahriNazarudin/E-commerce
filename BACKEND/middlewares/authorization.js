@@ -1,13 +1,16 @@
+const { User } = require("../models");
+
 const authorizationAdmin = async (req, res, next) => {
   try {
-    const email = req.user.email.toLowerCase();
-    if (email.includes("admin")) {
-      next();
-    } else {
+    const user = await User.findByPk(req.user.id);
+    if (!user || user.role !== "admin") {
       throw { name: "ForbiddenError", message: "Admin access required" };
     }
+    next();
   } catch (error) {
     next(error);
+    console.log(error,"<<<ERROR");
+    
   }
 };
 

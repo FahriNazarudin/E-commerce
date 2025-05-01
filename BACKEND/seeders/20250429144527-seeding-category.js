@@ -13,6 +13,7 @@ module.exports = {
     });
 
     await queryInterface.bulkInsert("Users", user, {});
+
     const category = JSON.parse(
       await fs.readFile("./data/categories.json", "utf8")
     ).map((el) => {
@@ -28,6 +29,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
 
     await queryInterface.bulkDelete("Users", null, {});
-    await queryInterface.bulkDelete("Categories", null, {});
+    await queryInterface.bulkDelete("Categories", null, {});x``
+    
   },
 };

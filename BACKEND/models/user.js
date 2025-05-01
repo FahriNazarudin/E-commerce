@@ -3,11 +3,6 @@ const { Model } = require("sequelize");
 const { hashPassword } = require("../helpers/bcrypt");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       User.hasMany(models.Product, { foreignKey: "userId" });
       User.hasMany(models.Cart, { foreignKey: "userId" });
@@ -18,29 +13,33 @@ module.exports = (sequelize, DataTypes) => {
       username: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: { args: true, msg: "username is already exists" },
+        unique: { args: true, msg: "Username already exists" },
         validate: {
-          notNull: { msg: "username is required!" },
-          notEmpty: { msg: "username cannot be empty" },
+          notNull: { msg: "Username is required!" },
+          notEmpty: { msg: "Username cannot be empty" },
         },
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: { args: true, msg: "Email is already exists" },
+        unique: { args: true, msg: "Email already exists" },
         validate: {
           notNull: { msg: "Email is required!" },
           notEmpty: { msg: "Email cannot be empty" },
-          isEmail: { msg: "Email format is wrong" },
+          isEmail: { msg: "Invalid email format" },
         },
       },
       phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: { msg: "Phone Number is required!" },
-          notEmpty: { msg: "Phone Number cannot be empty" },
-          len: { args: [8], msg: "Phone Number minimal 8 character" },
+          notNull: { msg: "Phone number is required!" },
+          notEmpty: { msg: "Phone number cannot be empty" },
+          len: {
+            args: [8],
+            msg: "Phone number must be at least 8 characters long",
+          },
+          isNumeric: { msg: "Phone number must be a number" },
         },
       },
       password: {
@@ -49,7 +48,10 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notNull: { msg: "Password is required!" },
           notEmpty: { msg: "Password cannot be empty" },
-          len: { args: [6], msg: "Password minimal 6 character" },
+          len: {
+            args: [6],
+            msg: "Password must be at least 6 characters long",
+          },
         },
       },
       address: {
@@ -60,6 +62,11 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: { msg: "Address cannot be empty" },
         },
       },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "user",
+      },
     },
     {
       sequelize,
@@ -67,8 +74,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-User.beforeCreate((user) =>{
-  user.password = hashPassword(user.password)
-})
+  User.beforeCreate((user) => {
+    user.password = hashPassword(user.password);
+  });
   return User;
 };

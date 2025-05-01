@@ -9,9 +9,28 @@ module.exports = (sequelize, DataTypes) => {
   }
   Cart.init(
     {
-      userId: DataTypes.INTEGER,
-      productId: DataTypes.INTEGER,
-      quantity: DataTypes.INTEGER,
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "User ID is required" },
+        },
+      },
+      productId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Product ID is required" },
+        },
+      },
+      quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Quantity is required" },
+          min: { args: 1, msg: "Quantity must be greater than 0" },
+        },
+      },
     },
     {
       sequelize,
