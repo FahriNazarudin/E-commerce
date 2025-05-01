@@ -8,7 +8,7 @@ export default function Navbar() {
         <div className="container">
           <Link className="navbar-brand" to="/">
             <img
-              src="https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/logos/IKEA_logo.svg"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS8oaKbTJY4O5L1zrnPY9XRINuJuHEW03ROw&s"
               alt="IKEA"
               width={80}
             />

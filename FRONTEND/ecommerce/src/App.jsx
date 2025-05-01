@@ -8,6 +8,8 @@ import {
 import Login from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
+import AdminCategoryPage from "./pages/AdminCategoryPage";
+import AdminProductPage from "./pages/AdminProductPage";
 
 function App() {
   const baseUrl = "http://localhost:3000";
@@ -15,7 +17,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login baseUrl={baseUrl} />} />
+        <Route path="/admin/products" element={<AdminProductPage baseUrl={baseUrl} />} />
+        {/* <Route path="/admin/category" element={<AdminCategoryPage baseUrl={baseUrl} />} /> */}
+        {/* <Route path="/login" element={<Login baseUrl={baseUrl} />} />
         <Route path="/register" element={<RegisterPage baseUrl={baseUrl} />} />
         <Route
           element={
@@ -26,7 +30,7 @@ function App() {
           }
         >
           <Route path="/" element={<HomePage baseUrl={baseUrl} />} />
-        </Route>
+        </Route> */}
       </Routes>
     </Router>
   );

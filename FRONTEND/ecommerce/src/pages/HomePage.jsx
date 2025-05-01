@@ -69,20 +69,6 @@ export default function HomePage({ baseUrl, setCartCount }) {
 
   return (
     <div>
-      <div className="mb-4">
-        <div className="input-group">
-          <input
-            type="text"
-            className="form-control rounded-start"
-            placeholder="Cari produk..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button className="btn btn-primary" type="button">
-            Seach
-          </button>
-        </div>
-      </div>
       <CategoryFilter
         onCategoryChange={setSelectedCategory}
         baseUrl={baseUrl}
