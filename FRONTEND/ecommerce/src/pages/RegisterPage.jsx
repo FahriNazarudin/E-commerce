@@ -3,9 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function RegisterPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function RegisterPage({baseUrl}) {
+  const [username, setUsername] = useState("user");
+  const [email, setEmail] = useState("user@mail.com");
+  const [password, setPassword] = useState("user123");
+  const [phoneNumber, setPhoneNumber] = useState("000000");
+  const [address, setAddress] = useState("jalan user");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -13,13 +16,13 @@ export default function RegisterPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await axios.post(
-        "https://h8-phase2-gc.vercel.app/apis/lectures/pub/register",
-        {
-          email,
-          password,
-        }
-      );
+      await axios.post(`${baseUrl}/register`, {
+        username,
+        email,
+        password,
+        phoneNumber,
+        address,
+      });
       Swal.fire({
         position: "top-center",
         icon: "success",
@@ -42,13 +45,49 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+    <div
+      className="d-flex justify-content-center align-items-center w-100 vh-100"
+      style={{
+        backgroundImage:
+          "url('https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div
-        className="card shadow-sm p-4"
-        style={{ maxWidth: "400px", width: "100%" }}
+        className="card shadow-sm p-4 rounded-3"
+        style={{
+          maxWidth: "400px",
+          width: "100%",
+          backgroundColor: "rgba(237, 237, 237, 0.83)",
+        }}
       >
-        <h2 className="text-center mb-4">Register</h2>
+        <h2
+          className="text-center mb-4"
+          style={{
+            fontFamily: "Poppins",
+          }}
+        >
+          Register
+        </h2>
         <form id="registerForm" onSubmit={handleRegister}>
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">
+              Username
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              aria-label="Username"
+            />
+          </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               Email address
@@ -81,10 +120,42 @@ export default function RegisterPage() {
               aria-label="Password"
             />
           </div>
+          <div className="mb-3">
+            <label htmlFor="phoneNumber" className="form-label">
+              Phone Number
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="phoneNumber"
+              name="phoneNumber"
+              placeholder="Enter your phone number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              required
+              aria-label="Phone number"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="address" className="form-label">
+              Address
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="address"
+              name="address"
+              placeholder="Enter your address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              required
+              aria-label="Address"
+            />
+          </div>
           <div className="d-grid mb-3">
             <button
               type="submit"
-              className="btn btn-warning text-white"
+              className="btn btn-outline-secondary"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -104,11 +175,11 @@ export default function RegisterPage() {
         </form>
         <p className="text-center mb-0">
           Already have an account?{" "}
-          <Link to="/login" className="text-primary">
+          <Link to="/login" className="text-secondary">
             Login
           </Link>
         </p>
       </div>
     </div>
   );
-};
+}

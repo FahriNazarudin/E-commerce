@@ -1,22 +1,33 @@
-import Carousel from "./components/Carousel";
 import Navbar from "./components/Navbar";
-import HomePage from "./pages/HomePage";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+} from "react-router-dom";
 import Login from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-
+import HomePage from "./pages/HomePage";
 
 function App() {
+  const baseUrl = "http://localhost:3000";
+
   return (
     <Router>
-      <div>
-        <Routes>
-          
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<RegisterPage />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/login" element={<Login baseUrl={baseUrl} />} />
+        <Route path="/register" element={<RegisterPage baseUrl={baseUrl} />} />
+        <Route
+          element={
+            <div>
+              <Navbar />
+              <Outlet />
+            </div>
+          }
+        >
+          <Route path="/" element={<HomePage baseUrl={baseUrl} />} />
+        </Route>
+      </Routes>
     </Router>
   );
 }

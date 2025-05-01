@@ -1,79 +1,108 @@
+import { useState, useEffect } from "react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import CardProduct from "../components/CardProduct";
 import Swal from "sweetalert2";
+import PropTypes from "prop-types";
+import ProductCard from "../components/ProductCard";
+import CategoryFilter from "../components/CategoryFilter";
 
-export default function HomePage() {
-  const [products, setProduct] = useState([]);
+export default function HomePage({ baseUrl, setCartCount }) {
+  const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/products`, {
+        params: {
+          searchQuery: searchQuery 
+        },
+      });
+      setProducts(response.data);
+    } catch (err) {
+      console.error("Gagal mengambil produk:", err);
+      Swal.fire({
+        title: "Error!",
+        text: "Gagal memuat daftar produk",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+
+  const handleAddToCart = async (productId) => {
+    try {
+      const response = await axios.post(
+        `${baseUrl}/carts`,
+        { productId, quantity: 1 },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+      setCartCount((prev) => prev + 1);
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Barang ditambahkan ke keranjang",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (err) {
+      console.error("Gagal menambahkan ke keranjang:", err);
+      Swal.fire({
+        title: "Error!",
+        text: "Silakan login untuk menambahkan barang ke keranjang",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  };
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(
-          "https://h8-phase2-gc.vercel.app/apis/pub/branded-things/products",
-        );
-        setProduct(response.data.data.query);
-        // console.log("Products:", response.data.data.query);
-      } catch (error) {
-        Swal.fire({
-          title: "Error!",
-          text: "Failed to fetch products!",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-        console.error("Error fetching products:", error);
-      }
-    }
-    fetchData();
-  }, []); 
-  
-//   console.log("Current products:", products);
+    fetchProducts();
+  }, [searchQuery]);
+
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => product.categoryId === selectedCategory)
+    : products;
 
   return (
-    
-    <section className="container my-5">
-      <h1 className="mb-4">Our Products</h1>
-      {products.length === 0 ? (
-        <div className="text-center">No products available</div>
-      ) : (
-        <div className="d-flex gap-4 flex-wrap">
-          {products.map((product) => (
-            <CardProduct key={product.id} product={product} />
-          ))}
+    <div>
+      <div className="mb-4">
+        <div className="input-group">
+          <input
+            type="text"
+            className="form-control rounded-start"
+            placeholder="Cari produk..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button className="btn btn-primary" type="button">
+            Seach
+          </button>
         </div>
-      )}
-      <div id="carouselExample" className="carousel slide">
-  <div className="carousel-inner">
-    <div className="carousel-item active">
-      <img src="..." className="d-block w-100" alt="..." />
+      </div>
+      <CategoryFilter
+        onCategoryChange={setSelectedCategory}
+        baseUrl={baseUrl}
+      />
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 p-3">
+        {filteredProducts.length === 0 ? (
+          <p className="text-center w-100">Tidak ada produk yang ditemukan</p>
+        ) : (
+          filteredProducts.map((product) => (
+            <div key={product.id} className="col">
+              <ProductCard product={product} onAddToCart={handleAddToCart} />
+            </div>
+          ))
+        )}
+      </div>
     </div>
-    <div className="carousel-item">
-      <img src="..." className="d-block w-100" alt="..." />
-    </div>
-    <div className="carousel-item">
-      <img src="..." className="d-block w-100" alt="..." />
-    </div>
-  </div>
-  <button
-    className="carousel-control-prev"
-    type="button"
-    data-bs-target="#carouselExample"
-    data-bs-slide="prev"
-  >
-    <span className="carousel-control-prev-icon" aria-hidden="true" />
-    <span className="visually-hidden">Previous</span>
-  </button>
-  <button
-    className="carousel-control-next"
-    type="button"
-    data-bs-target="#carouselExample"
-    data-bs-slide="next"
-  >
-    <span className="carousel-control-next-icon" aria-hidden="true" />
-    <span className="visually-hidden">Next</span>
-  </button>
-</div>
-
-    </section>
   );
 }
+
+HomePage.propTypes = {
+  baseUrl: PropTypes.string.isRequired,
+  setCartCount: PropTypes.func.isRequired,
+};

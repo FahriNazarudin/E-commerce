@@ -1,17 +1,18 @@
 import { BsCart2, BsPersonCircle } from "react-icons/bs";
+import { Link } from "react-router";
 
 export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg mx-4 center ">
       <nav className="navbar ">
         <div className="container">
-          <a className="navbar-brand" href="#">
+          <Link className="navbar-brand" to="/">
             <img
               src="https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/logos/IKEA_logo.svg"
               alt="IKEA"
               width={80}
             />
-          </a>
+          </Link>
         </div>
       </nav>
       <form
@@ -26,7 +27,7 @@ export default function Navbar() {
           aria-label="Search"
           style={{ width: "100%" }}
         />
-        <button className="btn btn-outline-warning" type="submit">
+        <button className="btn btn-outline-seconda" type="submit">
           Search
         </button>
       </form>
@@ -34,14 +35,14 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
+              <Link className="nav-link active" aria-current="page" href="#">
                 <BsCart2 size={25} />
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <Link className="nav-link" to="#">
                 <BsPersonCircle size={25} />
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
