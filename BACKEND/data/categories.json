@@ -1,0 +1,106 @@
+[
+  {
+    "id": 1,
+    "name": "Electronics"
+  },
+  {
+    "id": 2,
+    "name": "Furniture"
+  },
+  {
+    "id": 3,
+    "name": "Clothing"
+  },
+  {
+    "id": 4,
+    "name": "Footwear"
+  },
+  {
+    "id": 5,
+    "name": "Beauty & Personal Care"
+  },
+  {
+    "id": 6,
+    "name": "Health & Wellness"
+  },
+  {
+    "id": 7,
+    "name": "Home Appliances"
+  },
+  {
+    "id": 8,
+    "name": "Kitchen & Dining"
+  },
+  {
+    "id": 10,
+    "name": "Automotive"
+  },
+  {
+    "id": 11,
+    "name": "Toys & Games"
+  },
+  {
+    "id": 12,
+    "name": "Books & Stationery"
+  },
+  {
+    "id": 13,
+    "name": "Baby Products"
+  },
+  {
+    "id": 14,
+    "name": "Jewelry & Accessories"
+  },
+  {
+    "id": 15,
+    "name": "Musical Instruments"
+  },
+  {
+    "id": 16,
+    "name": "Pet Supplies"
+  },
+  {
+    "id": 17,
+    "name": "Office Supplies"
+  },
+  {
+    "id": 18,
+    "name": "Garden & Outdoor"
+  },
+  {
+    "id": 19,
+    "name": "Tools & Hardware"
+  },
+  {
+    "id": 20,
+    "name": "Groceries & Gourmet Food"
+  },
+  {
+    "id": 21,
+    "name": "Art & Craft Supplies"
+  },
+  {
+    "id": 22,
+    "name": "Movies & TV Shows"
+  },
+  {
+    "id": 23,
+    "name": "Video Games"
+  },
+  {
+    "id": 24,
+    "name": "Bags & Luggage"
+  },
+  {
+    "id": 25,
+    "name": "Watches"
+  },
+  {
+    "id": 26,
+    "name": "Halo"
+  },
+  {
+    "id": 9,
+    "name": "New Name"
+  }
+]
