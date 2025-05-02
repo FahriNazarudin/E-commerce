@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router";
 
 function AdminCategoryPage({ baseUrl }) {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -163,7 +165,7 @@ function AdminCategoryPage({ baseUrl }) {
       }}
     >
       <div
-        className="card shadow-sm p-5 rounded-3 h-75 mt-4" 
+        className="card shadow-sm p-5 rounded-3 h-75 mt-4"
         style={{
           maxWidth: "600px",
           width: "150%",
@@ -258,6 +260,15 @@ function AdminCategoryPage({ baseUrl }) {
             </div>
           </>
         )}
+        <div className="d-flex justify-content-between mt-4">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </button>
+        </div>
       </div>
     </div>
   );

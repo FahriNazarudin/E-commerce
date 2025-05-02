@@ -9,23 +9,27 @@ export default function HomePage({ baseUrl, setCartCount }) {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchProducts = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(`${baseUrl}/products`, {
         params: {
-          searchQuery: searchQuery 
+          search: searchQuery || "",
         },
       });
       setProducts(response.data);
     } catch (err) {
-      console.error("Gagal mengambil produk:", err);
+      console.error("Failed to fetch products:", err);
       Swal.fire({
         title: "Error!",
-        text: "Gagal memuat daftar produk",
+        text: "Failed to load product list",
         icon: "error",
         confirmButtonText: "OK",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -40,28 +44,34 @@ export default function HomePage({ baseUrl, setCartCount }) {
           },
         }
       );
-      setCartCount((prev) => prev + 1);
+      console.log(response.data, "RESPONSE");
+
       Swal.fire({
         position: "top-center",
         icon: "success",
-        title: "Barang ditambahkan ke keranjang",
+        title: "Item added to cart",
         showConfirmButton: false,
         timer: 1500,
       });
     } catch (err) {
-      console.error("Gagal menambahkan ke keranjang:", err);
+      console.error("Failed to add to cart:", err);
       Swal.fire({
         title: "Error!",
-        text: "Silakan login untuk menambahkan barang ke keranjang",
+        text: "Could not add item to cart. Please try again.",
         icon: "error",
         confirmButtonText: "OK",
       });
     }
   };
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    fetchProducts();
+  };
+
   useEffect(() => {
     fetchProducts();
-  }, [searchQuery]);
+  }, []);
 
   const filteredProducts = selectedCategory
     ? products.filter((product) => product.categoryId === selectedCategory)
@@ -73,9 +83,33 @@ export default function HomePage({ baseUrl, setCartCount }) {
         onCategoryChange={setSelectedCategory}
         baseUrl={baseUrl}
       />
+      <form
+        className="d-flex p-3"
+        role="search"
+        onSubmit={handleSearchSubmit}
+        style={{ maxWidth: "", width: "100%" }}
+      >
+        <input
+          className="form-control me-2"
+          type="search"
+          placeholder="Search products..."
+          aria-label="Search"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button
+          className="btn btn-outline-secondary"
+          type="submit"
+          disabled={isLoading}
+        >
+          {isLoading ? "Searching..." : "Search"}
+        </button>
+      </form>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 p-3">
-        {filteredProducts.length === 0 ? (
-          <p className="text-center w-100">Tidak ada produk yang ditemukan</p>
+        {isLoading ? (
+          <p className="text-center w-100">Loading products...</p>
+        ) : filteredProducts.length === 0 ? (
+          <p className="text-center w-100">No products found</p>
         ) : (
           filteredProducts.map((product) => (
             <div key={product.id} className="col">

@@ -25,14 +25,14 @@ function CategoryFilter({ onCategoryChange, baseUrl }) {
   };
 
   return (
-    <div className="p-3" style={{ width: "150px" }}>
+    <div className="p-3" >
       <h4 className="mb-2"> Select Category</h4>
       <select
         className="form-select"
         value={activeCategory === null ? "all" : activeCategory}
         onChange={handleCategoryChange}
       >
-        <option value="all">Semua</option>
+        <option value="all">All</option>
         {categories.map((category) => (
           <option key={category.id} value={category.id}>
             {category.name}

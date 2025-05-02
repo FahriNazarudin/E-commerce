@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router";
 
 function AdminProductPage({ baseUrl }) {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +20,6 @@ function AdminProductPage({ baseUrl }) {
   });
   const [editProduct, setEditProduct] = useState(null);
 
-  // Fetch products and categories
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -54,7 +55,6 @@ function AdminProductPage({ baseUrl }) {
     fetchData();
   }, [baseUrl]);
 
-  // Validate and handle adding a new product
   const handleAddProduct = async (e) => {
     e.preventDefault();
     const { name, description, price, stock, imgUrl, categoryId } = newProduct;
@@ -117,7 +117,6 @@ function AdminProductPage({ baseUrl }) {
     }
   };
 
-  // Handle updating a product
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
     if (!editProduct) return;
@@ -137,6 +136,7 @@ function AdminProductPage({ baseUrl }) {
         icon: "error",
         confirmButtonText: "OK",
       });
+      navigate('/admin/product')
       return;
     }
     try {
@@ -144,9 +144,9 @@ function AdminProductPage({ baseUrl }) {
         `${baseUrl}/products/${id}`,
         {
           ...editProduct,
-          price: parseInt(price),
-          stock: parseInt(stock),
-          categoryId: parseInt(categoryId),
+          price: price,
+          stock: stock,
+          categoryId: categoryId,
         },
         {
           headers: {
@@ -173,7 +173,6 @@ function AdminProductPage({ baseUrl }) {
       console.error("Error updating product:", error);
     }
   };
-
 
   const handleDeleteProduct = async (id) => {
     const result = await Swal.fire({
@@ -228,7 +227,7 @@ function AdminProductPage({ baseUrl }) {
           maxWidth: "1200px",
           width: "100%",
           backgroundColor: "rgba(237, 237, 237, 0.83)",
-          fontFamily: "'Poppins', sans-serif",
+          fontFamily: "'Poppins",
         }}
       >
         <h2 className="text-center mb-4" style={{ color: "#343a40" }}>
@@ -242,7 +241,6 @@ function AdminProductPage({ baseUrl }) {
           </div>
         ) : (
           <>
-            {/* Add Product Form */}
             <div className="mb-4">
               <h4 className="mb-3" style={{ color: "#343a40" }}>
                 Add New Product
@@ -360,7 +358,6 @@ function AdminProductPage({ baseUrl }) {
               </form>
             </div>
 
-            {/* Edit Product Form */}
             {editProduct && (
               <div className="mb-4">
                 <h4 className="mb-3" style={{ color: "#343a40" }}>
@@ -513,8 +510,7 @@ function AdminProductPage({ baseUrl }) {
                       <td>Rp {product.price.toLocaleString()}</td>
                       <td>{product.stock}</td>
                       <td>
-                        {categories.find((c) => c.id === product.categoryId)
-                          ?.name || "N/A"}
+                        {categories.find((c) => c.id === product.categoryId).name}
                       </td>
                       <td>
                         <button
@@ -539,6 +535,15 @@ function AdminProductPage({ baseUrl }) {
             </div>
           </>
         )}
+        <div className="d-flex justify-content-between mt-4">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </button>
+        </div>
       </div>
     </div>
   );

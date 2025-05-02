@@ -6,82 +6,85 @@ import PropTypes from "prop-types";
 
 export default function LoginPage({ baseUrl }) {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("admin1@example.com");
+  const [password, setPassword] = useState("admin123");
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    setIsLoading(true);
     try {
       const response = await axios.post(`${baseUrl}/login`, {
         email,
         password,
       });
-      console.log("Login response:", response.data); // Debug
       localStorage.setItem("access_token", response.data.access_token);
       localStorage.setItem("userId", response.data.userId);
-      navigate("/");
+      console.log(response.data.role, "APA INI ROLE");
+      
+      if (response.data.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
       Swal.fire({
         position: "top-center",
         icon: "success",
-        title: "Login Berhasil",
+        title: "Login successful",
         showConfirmButton: false,
         timer: 1500,
       });
     } catch (error) {
       Swal.fire({
         title: "Error!",
-        text: error.response?.data?.message || "Email atau Password salah",
+        text: error.response?.data?.message || "Invalid email or password",
         icon: "error",
         confirmButtonText: "OK",
       });
-      console.error("Login error:", error.response?.data || error);
+      console.error("Login failed:", error.response?.data || error);
       if (error.response?.status === 401) {
         localStorage.removeItem("access_token");
         localStorage.removeItem("userId");
         navigate("/login");
       }
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const handleCredentialResponse = async (response) => {
     try {
-      console.log("Google JWT Token:", response.credential);
       const { data } = await axios.post(`${baseUrl}/login/google`, {
         googleToken: response.credential,
       });
-      console.log("Google login response:", data); // Debug
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("userId", data.userId);
-      navigate("/");
+      if (data.role === "admin") {
+        navigate("/admin/products");
+      } else {
+        navigate("/");
+      }
       Swal.fire({
         position: "top-center",
         icon: "success",
-        title: "Login Google Berhasil",
+        title: "Logged in with Google successfully",
         showConfirmButton: false,
         timer: 1500,
       });
     } catch (error) {
       Swal.fire({
         title: "Error!",
-        text: error.response?.data?.message || "Google Login Gagal",
+        text: error.response?.data?.message || "Failed to log in with Google",
         icon: "error",
         confirmButtonText: "OK",
       });
-      console.error("Google login error:", error.response?.data || error);
+      console.error("Google login failed:", error.response?.data || error);
     }
   };
 
   useEffect(() => {
     if (!import.meta.env.VITE_GOOGLE_CLIENT_ID) {
-      console.error("Google Client ID tidak ditemukan. Periksa file .env.");
+      console.error("Google Client ID not found. Check your .env file.");
       return;
     }
     if (!window.google) {
-      console.error("Google SDK tidak dimuat. Periksa script di index.html.");
+      console.error("Google SDK not loaded. Check the script in index.html.");
       return;
     }
     window.google.accounts.id.initialize({
@@ -113,29 +116,24 @@ export default function LoginPage({ baseUrl }) {
           backgroundColor: "rgba(237, 237, 237, 0.83)",
         }}
       >
-        <h2
-          className="text-center mb-4"
-          style={{
-            fontFamily: "Poppins",
-          }}
-        >
+        <h2 className="text-center mb-4" style={{ fontFamily: "Poppins" }}>
           Login
         </h2>
         <form id="loginForm" onSubmit={handleLogin}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
-              Email address
+              Email
             </label>
             <input
               type="email"
               className="form-control"
               id="email"
               name="email"
-              placeholder="Masukkan email Anda"
+              placeholder="Enter your email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               required
-              aria-label="Email address"
+              aria-label="Email"
             />
           </div>
           <div className="mb-3">
@@ -147,7 +145,7 @@ export default function LoginPage({ baseUrl }) {
               className="form-control"
               id="password"
               name="password"
-              placeholder="Masukkan password Anda"
+              placeholder="Enter your password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               required
@@ -155,23 +153,8 @@ export default function LoginPage({ baseUrl }) {
             />
           </div>
           <div className="d-grid mb-3">
-            <button
-              type="submit"
-              className="btn btn-outline-secondary"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <span
-                    className="spinner-border spinner-border-sm me-2"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  Sedang login...
-                </>
-              ) : (
-                "Login"
-              )}
+            <button type="submit" className="btn btn-outline-secondary">
+              Login
             </button>
           </div>
         </form>
@@ -180,9 +163,9 @@ export default function LoginPage({ baseUrl }) {
           className="d-flex justify-content-center mb-3"
         ></div>
         <p className="text-center mb-0">
-          Belum punya akun?{" "}
+          Don't have an account?{" "}
           <Link to="/register" className="text-secondary">
-            Daftar
+            Register
           </Link>
         </p>
       </div>

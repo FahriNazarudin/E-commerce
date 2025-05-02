@@ -3,15 +3,14 @@ import PropTypes from "prop-types";
 function ProductCard({ product, onAddToCart }) {
   return (
     <div className="d-flex flex-row flex-wrap justify-content-center">
-      <div className="card w-25, w-50, w-75, w-100 shadow-sm p-3 rounded-3 bg-light ">
+      <div className="shadow-sm p-3 rounded-3 bg-light ">
         <img
-          src={product.imgUrl || "https://via.placeholder.com/150"}
+          src={product.imgUrl }
           className="card-img-top"
           alt={product.name}
           style={{
-            height: "200px",
-            // width :"px",
-            objectFit: "contain",
+            height: "250px",
+            objectFit: "cover",
           }}
         />
         <div className="card-body d-flex flex-column">
@@ -24,7 +23,7 @@ function ProductCard({ product, onAddToCart }) {
             onClick={() => onAddToCart(product.id)}
             disabled={product.stock <= 0}
           >
-            {product.stock <= 0 ? "Stok Habis" : "Tambah ke Keranjang"}
+            {product.stock <= 0 ? "Sold" : "Add to Cart"}
           </button>
         </div>
       </div>
