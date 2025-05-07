@@ -9,7 +9,7 @@ const fs = require("fs").promises;
 
 let access_token_admin;
 let access_token_user;
-let testCartItemId; // Added at top level for cart tests
+let testCartItemId;
 
 beforeAll(async () => {
   try {
@@ -156,7 +156,7 @@ describe("POST /register", () => {
   test("Gagal mendaftar karena data tidak lengkap", async () => {
     const invalidUser = {
       username: "testuser",
-      // email tidak ada
+
       password: "password123",
     };
 

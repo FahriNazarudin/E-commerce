@@ -15,7 +15,7 @@ module.exports = class ProductController {
         };
       }
 
-      // Add pagination
+
       if (page && limit) {
         options.limit = parseInt(limit);
         options.offset = (parseInt(page) - 1) * parseInt(limit);

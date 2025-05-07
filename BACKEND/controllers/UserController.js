@@ -58,7 +58,7 @@ module.exports = class UserController {
       const { username, email, phoneNumber, password, address, role } =
         req.body;
 
-      // Direct validation to avoid using error handler
+ 
       if (!username || !email || !phoneNumber || !password || !address) {
         return res.status(400).json({
           message: "All data must be filled.",
