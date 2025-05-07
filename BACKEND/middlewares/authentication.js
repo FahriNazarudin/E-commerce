@@ -11,7 +11,14 @@ const authentication = async (req, res, next) => {
     if (!accessToken) {
       throw { name: "UnauthorizedError", message: "Unauthorized access" };
     }
-    const data = verifyToken(accessToken);
+
+    let data;
+    try {
+      data = verifyToken(accessToken);
+    } catch (err) {
+      throw { name: "UnauthorizedError", message: "Unauthorized access" };
+    }
+
     const user = await User.findByPk(data.id);
     if (!user) {
       throw { name: "UnauthorizedError", message: "Unauthorized access" };

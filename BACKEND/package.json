@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose --detectOpenHandles --forceExit --runInBand",
+    "test": "jest --verbose --detectOpenHandles --forceExit --runInBand --coverage",
     "dev": "npx nodemon app"
   },
   "keywords": [],

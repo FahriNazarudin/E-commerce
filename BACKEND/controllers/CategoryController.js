@@ -44,7 +44,7 @@ module.exports = class CategoryController {
 
   static async updateCategoryById(req, res, next) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       if (isNaN(id)) {
         throw { name: "ValidationError", message: `Invalid category ${id}` };
       }

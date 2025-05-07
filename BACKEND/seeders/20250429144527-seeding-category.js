@@ -1,16 +1,18 @@
-'use strict';
+"use strict";
 const fs = require("fs").promises;
+const { hashPassword } = require("../helpers/bcrypt");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const user = JSON.parse(
-      await fs.readFile("./data/users.json", "utf8")
-    ).map((el) => {
-      delete el.id;
-      el.createdAt = new Date();
-      el.updatedAt = new Date();
-      return el;
-    });
+    const user = JSON.parse(await fs.readFile("./data/users.json", "utf8")).map(
+      (el) => {
+        delete el.id;
+        el.password = hashPassword(el.password);
+        el.createdAt = new Date();
+        el.updatedAt = new Date();
+        return el;
+      }
+    );
 
     await queryInterface.bulkInsert("Users", user, {});
 
@@ -27,9 +29,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-
     await queryInterface.bulkDelete("Users", null, {});
-    await queryInterface.bulkDelete("Categories", null, {});x``
-    
+    await queryInterface.bulkDelete("Categories", null, {});
   },
 };

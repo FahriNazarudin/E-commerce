@@ -1,9 +1,21 @@
 const { Product } = require("../models");
+const { Op } = require("sequelize");
 
 module.exports = class ProductController {
   static async getProduct(req, res, next) {
     try {
-      const products = await Product.findAll();
+      const { search } = req.query;
+      let options = {};
+
+      if (search) {
+        options.where = {
+          name: {
+            [Op.iLike]: `%${search}%`, 
+          },
+        };
+      }
+
+      const products = await Product.findAll(options);
       res.status(200).json(products);
     } catch (error) {
       next(error);
@@ -33,19 +45,26 @@ module.exports = class ProductController {
     try {
       const { name, description, price, stock, imgUrl, categoryId, userId } =
         req.body;
+      if (!userId || isNaN(userId))
+        throw {
+          name: "ValidationError",
+          message: "User ID is required and must be a number!",
+        };
       if (!name)
         throw { name: "ValidationError", message: "Name is required!" };
       if (!description)
         throw { name: "ValidationError", message: "Description is required!" };
-      if (!price || isNaN(price))
+      if (!price || isNaN(price) || price < 0)
         throw {
           name: "ValidationError",
-          message: "Price is required and must be a number!",
+          message:
+            "Price is required, must be a number, and cannot be negative!",
         };
-      if (!stock || isNaN(stock))
+      if (!stock || isNaN(stock) || stock < 0)
         throw {
           name: "ValidationError",
-          message: "Stock is required and must be a number!",
+          message:
+            "Stock is required, must be a number, and cannot be negative!",
         };
       if (!imgUrl)
         throw { name: "ValidationError", message: "Image URL is required!" };
@@ -53,11 +72,6 @@ module.exports = class ProductController {
         throw {
           name: "ValidationError",
           message: "Category ID is required and must be a number!",
-        };
-      if (!userId || isNaN(userId))
-        throw {
-          name: "ValidationError",
-          message: "User ID is required and must be a number!",
         };
 
       const product = await Product.create(req.body);
@@ -72,7 +86,11 @@ module.exports = class ProductController {
       const id = parseInt(req.params.id);
       const { name, description, price, stock, imgUrl, categoryId, userId } =
         req.body;
-
+      if (!userId || isNaN(userId))
+        throw {
+          name: "ValidationError",
+          message: "User ID is required and must be a number!",
+        };
       if (isNaN(id)) {
         throw { name: "ValidationError", message: "Invalid product ID" };
       }

@@ -1,6 +1,6 @@
-if(process.env.NODE_ENV !== "production"){
-  require("dotenv").config();  
-}
+// if(process.env.NODE_ENV !== "production"){
+//   require("dotenv").config();  
+// }
 
 const express = require("express");
 const ProductController = require("./controllers/ProductController");
@@ -28,6 +28,10 @@ app.post("/login", UserController.login);
 app.post("/login/google", UserController.googleLogin);
 
 app.use(authentication);
+
+// User profile endpoints
+app.get("/users/:id", UserController.getUserById);
+app.put("/users/:id", UserController.updateUserById);
 
 // Product endpoints
 app.get("/products", ProductController.getProduct);
