@@ -4,15 +4,21 @@ const { Op } = require("sequelize");
 module.exports = class ProductController {
   static async getProduct(req, res, next) {
     try {
-      const { search } = req.query;
+      const { search, page = 1, limit =10 } = req.query;
       let options = {};
 
       if (search) {
         options.where = {
           name: {
-            [Op.iLike]: `%${search}%`, 
+            [Op.iLike]: `%${search}%`,
           },
         };
+      }
+
+      // Add pagination
+      if (page && limit) {
+        options.limit = parseInt(limit);
+        options.offset = (parseInt(page) - 1) * parseInt(limit);
       }
 
       const products = await Product.findAll(options);

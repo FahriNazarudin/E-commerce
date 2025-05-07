@@ -14,10 +14,10 @@ module.exports = class CategoryController {
     try {
       const { name } = req.body;
       if (!name) {
-        throw { name: "ValidationError", message: "Category name is required" };
+        return res.status(400).json({ message: "Category name is required" });
       }
       const category = await Category.create({ name });
-      res.status(201).json(category);
+      return res.status(201).json(category);
     } catch (error) {
       next(error);
     }
@@ -62,7 +62,9 @@ module.exports = class CategoryController {
       await category.update({ name });
       res
         .status(200)
-        .json({ message: `Category with ID ${id} has been successfully updated` });
+        .json({
+          message: `Category with ID ${id} has been successfully updated`,
+        });
     } catch (error) {
       next(error);
     }
@@ -82,10 +84,9 @@ module.exports = class CategoryController {
         };
       }
       await category.destroy();
-      res
-        .status(200)
-        .json({
-          message: `Category with ID ${id} has been successfully deleted` });
+      res.status(200).json({
+        message: `Category with ID ${id} has been successfully deleted`,
+      });
     } catch (error) {
       next(error);
     }

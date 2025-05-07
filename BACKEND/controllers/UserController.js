@@ -8,10 +8,27 @@ module.exports = class UserController {
   static async googleLogin(req, res, next) {
     try {
       const { googleToken } = req.body;
-      const ticket = await client.verifyIdToken({
-        idToken: googleToken,
-        audience: process.env.WEB_CLIENT_ID,
-      });
+
+
+      if (!googleToken) {
+        return res.status(401).json({
+          message: "Google token is required",
+        });
+      }
+
+
+      let ticket;
+      try {
+        ticket = await client.verifyIdToken({
+          idToken: googleToken,
+          audience: process.env.WEB_CLIENT_ID,
+        });
+      } catch (error) {
+        return res.status(401).json({
+          message: "Invalid Google token",
+        });
+      }
+
       const payload = ticket.getPayload();
 
       let user = await User.findOne({ where: { email: payload.email } });
@@ -19,7 +36,7 @@ module.exports = class UserController {
         user = await User.create({
           username: payload.name,
           email: payload.email,
-          phoneNumber: "Not provided",
+          phoneNumber: "00000000",
           password: Math.random().toString(36).substring(2),
           address: "Not provided",
         });
@@ -40,28 +57,33 @@ module.exports = class UserController {
     try {
       const { username, email, phoneNumber, password, address, role } =
         req.body;
+
+      // Direct validation to avoid using error handler
       if (!username || !email || !phoneNumber || !password || !address) {
-        throw {
-          name: "ValidationError",
+        return res.status(400).json({
           message: "All data must be filled.",
-        };
+        });
       }
+
       const existingUser = await User.findOne({ where: { email } });
       if (existingUser) {
-        throw {
-          name: "ValidationError",
+        return res.status(400).json({
           message: "Email already registered",
-        };
+        });
       }
+
       const user = await User.create({
         username,
         email,
         phoneNumber,
         password,
         address,
-        role,
+        role: role || "user",
       });
-      res.status(201).json({
+
+
+      return res.status(201).json({
+        id: user.id,
         username: user.username,
         email: user.email,
       });
@@ -102,13 +124,12 @@ module.exports = class UserController {
     try {
       const { id } = req.params;
       const user = await User.findByPk(id, {
-        attributes: { exclude: ["password"] }, 
+        attributes: { exclude: ["password"] },
       });
 
       if (!user) {
         throw { name: "NotFoundError", message: "User not found" };
       }
-
 
       if (req.user.id !== +id) {
         throw {

@@ -9,6 +9,7 @@ const fs = require("fs").promises;
 
 let access_token_admin;
 let access_token_user;
+let testCartItemId; // Added at top level for cart tests
 
 beforeAll(async () => {
   try {
@@ -123,17 +124,17 @@ afterAll(async () => {
 describe("POST /register", () => {
   test("Berhasil mendaftarkan pengguna baru", async () => {
     const newUser = {
-      username: "testuser",
-      email: "testuser@example.com",
-      password: "password123",
-      phoneNumber: "08123456789",
+      username: "user1",
+      email: "user1@mail.com",
+      password: "user123",
+      phoneNumber: "000000000",
       address: "Jl. Test No. 123",
     };
 
     const response = await request(app).post("/register").send(newUser);
 
     expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty("id");
+    expect(response.body).toHaveProperty("username", newUser.username);
     expect(response.body).toHaveProperty("email", newUser.email);
   });
 
@@ -241,7 +242,7 @@ describe("POST /login/google", () => {
   test("Gagal login dengan Google karena token tidak valid", async () => {
     const response = await request(app)
       .post("/login/google")
-      .send({ google_token: "invalid_token" });
+      .send({ googleToken: "invalid_token" });
 
     expect(response.status).toBe(401);
   });
@@ -647,221 +648,220 @@ describe("DELETE /categories/:id", () => {
       `Category with ID ${categoryId} not found`
     );
   });
+});
 
-  describe("POST /carts", () => {
-    test("Berhasil menambahkan item ke keranjang", async () => {
-      const cartItem = {
-        productId: 1,
-        quantity: 2,
-      };
+describe("POST /carts", () => {
+  test("Berhasil menambahkan item ke keranjang", async () => {
+    const cartItem = {
+      productId: 1,
+      quantity: 2,
+    };
 
-      const response = await request(app)
-        .post("/carts")
-        .set("Authorization", `Bearer ${access_token_user}`)
-        .send(cartItem);
+    const response = await request(app)
+      .post("/carts")
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(cartItem);
 
-      expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty("message", "Item added to cart");
-    });
-
-    test("Berhasil menambah kuantitas item yang sudah ada di keranjang", async () => {
-      const cartItem = {
-        productId: 1,
-        quantity: 1,
-      };
-
-      const response = await request(app)
-        .post("/carts")
-        .set("Authorization", `Bearer ${access_token_user}`)
-        .send(cartItem);
-
-      expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty("message", "Item added to cart");
-    });
-
-    test("Gagal menambahkan item dengan productId yang tidak valid", async () => {
-      const cartItem = {
-        productId: "invalid",
-        quantity: 2,
-      };
-
-      const response = await request(app)
-        .post("/carts")
-        .set("Authorization", `Bearer ${access_token_user}`)
-        .send(cartItem);
-
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty("message", "Invalid product ID");
-    });
-
-    test("Gagal menambahkan item dengan kuantitas tidak valid", async () => {
-      const cartItem = {
-        productId: 1,
-        quantity: 0,
-      };
-
-      const response = await request(app)
-        .post("/carts")
-        .set("Authorization", `Bearer ${access_token_user}`)
-        .send(cartItem);
-
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty(
-        "message",
-        "Quantity must be greater than 0"
-      );
-    });
-
-    test("Gagal menambahkan item dengan productId yang tidak ditemukan", async () => {
-      const cartItem = {
-        productId: 99999,
-        quantity: 1,
-      };
-
-      const response = await request(app)
-        .post("/carts")
-        .set("Authorization", `Bearer ${access_token_user}`)
-        .send(cartItem);
-
-      expect(response.status).toBe(404);
-      expect(response.body).toHaveProperty("message", "Product not found");
-    });
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("message", "Item added to cart");
   });
 
-  describe("GET /carts", () => {
-    test("Berhasil mendapatkan daftar item keranjang", async () => {
-      const response = await request(app)
-        .get("/carts")
-        .set("Authorization", `Bearer ${access_token_user}`);
+  test("Berhasil menambah kuantitas item yang sudah ada di keranjang", async () => {
+    const cartItem = {
+      productId: 1,
+      quantity: 1,
+    };
 
-      expect(response.status).toBe(200);
-      expect(response.body).toBeInstanceOf(Array);
+    const response = await request(app)
+      .post("/carts")
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(cartItem);
 
-      // Save cart item ID for later tests
-      if (response.body.length > 0) {
-        testCartItemId = response.body[0].id;
-      }
-    });
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("message", "Item added to cart");
   });
 
-  describe("PUT /carts/:id", () => {
-    test("Berhasil mengupdate item keranjang", async () => {
-      const updatedCartItem = {
-        productId: 1,
-        quantity: 5,
-      };
+  test("Gagal menambahkan item dengan productId yang tidak valid", async () => {
+    const cartItem = {
+      productId: "invalid",
+      quantity: 2,
+    };
 
-      const response = await request(app)
-        .put(`/carts/${testCartItemId}`)
-        .set("Authorization", `Bearer ${access_token_user}`)
-        .send(updatedCartItem);
+    const response = await request(app)
+      .post("/carts")
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(cartItem);
 
-      expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty(
-        "message",
-        `Cart with ID ${testCartItemId} successfully updated`
-      );
-    });
-
-    test("Gagal mengupdate item dengan ID keranjang tidak valid", async () => {
-      const updatedCartItem = {
-        productId: 1,
-        quantity: 3,
-      };
-
-      const response = await request(app)
-        .put("/carts/invalid_id")
-        .set("Authorization", `Bearer ${access_token_user}`)
-        .send(updatedCartItem);
-
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty("message", "Invalid cart ID");
-    });
-
-    test("Gagal mengupdate item dengan productId tidak valid", async () => {
-      const updatedCartItem = {
-        productId: "invalid",
-        quantity: 3,
-      };
-
-      const response = await request(app)
-        .put(`/carts/${testCartItemId}`)
-        .set("Authorization", `Bearer ${access_token_user}`)
-        .send(updatedCartItem);
-
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty("message", "Invalid product ID");
-    });
-
-    test("Gagal mengupdate item dengan kuantitas tidak valid", async () => {
-      const updatedCartItem = {
-        productId: 1,
-        quantity: -1,
-      };
-
-      const response = await request(app)
-        .put(`/carts/${testCartItemId}`)
-        .set("Authorization", `Bearer ${access_token_user}`)
-        .send(updatedCartItem);
-
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty(
-        "message",
-        "Quantity must be greater than 0"
-      );
-    });
-
-    test("Gagal mengupdate item dengan ID keranjang tidak ditemukan", async () => {
-      const updatedCartItem = {
-        productId: 1,
-        quantity: 3,
-      };
-
-      const response = await request(app)
-        .put("/carts/999999")
-        .set("Authorization", `Bearer ${access_token_user}`)
-        .send(updatedCartItem);
-
-      expect(response.status).toBe(404);
-      expect(response.body).toHaveProperty(
-        "message",
-        "Cart with ID 999999 not found"
-      );
-    });
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message", "Invalid product ID");
   });
 
-  describe("DELETE /carts/:id", () => {
-    test("Berhasil menghapus item keranjang", async () => {
-      const response = await request(app)
-        .delete(`/carts/${testCartItemId}`)
-        .set("Authorization", `Bearer ${access_token_user}`);
+  test("Gagal menambahkan item dengan kuantitas tidak valid", async () => {
+    const cartItem = {
+      productId: 1,
+      quantity: 0,
+    };
 
-      expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty(
-        "message",
-        `Cart with ID ${testCartItemId} successfully deleted`
-      );
-    });
+    const response = await request(app)
+      .post("/carts")
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(cartItem);
 
-    test("Gagal menghapus item dengan ID keranjang tidak valid", async () => {
-      const response = await request(app)
-        .delete("/carts/invalid_id")
-        .set("Authorization", `Bearer ${access_token_user}`);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Quantity must be greater than 0"
+    );
+  });
 
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty("message", "ID Invalid cart");
-    });
+  test("Gagal menambahkan item dengan productId yang tidak ditemukan", async () => {
+    const cartItem = {
+      productId: 99999,
+      quantity: 1,
+    };
 
-    test("Gagal menghapus item dengan ID keranjang tidak ditemukan", async () => {
-      const response = await request(app)
-        .delete(`/carts/${testCartItemId}`)
-        .set("Authorization", `Bearer ${access_token_user}`);
+    const response = await request(app)
+      .post("/carts")
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(cartItem);
 
-      expect(response.status).toBe(404);
-      expect(response.body).toHaveProperty(
-        "message",
-        `Cart with ID ${testCartItemId} not found`
-      );
-    });
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty("message", "Product not found");
+  });
+});
+
+describe("GET /carts", () => {
+  test("Berhasil mendapatkan daftar item keranjang", async () => {
+    const response = await request(app)
+      .get("/carts")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Array);
+
+    if (response.body.length > 0) {
+      testCartItemId = response.body[0].id;
+    }
+  });
+});
+
+describe("PUT /carts/:id", () => {
+  test("Berhasil mengupdate item keranjang", async () => {
+    const updatedCartItem = {
+      productId: 1,
+      quantity: 5,
+    };
+
+    const response = await request(app)
+      .put(`/carts/${testCartItemId}`)
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(updatedCartItem);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty(
+      "message",
+      `Cart with ID ${testCartItemId} successfully updated`
+    );
+  });
+
+  test("Gagal mengupdate item dengan ID keranjang tidak valid", async () => {
+    const updatedCartItem = {
+      productId: 1,
+      quantity: 3,
+    };
+
+    const response = await request(app)
+      .put("/carts/invalid_id")
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(updatedCartItem);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message", "Invalid cart ID");
+  });
+
+  test("Gagal mengupdate item dengan productId tidak valid", async () => {
+    const updatedCartItem = {
+      productId: "invalid",
+      quantity: 3,
+    };
+
+    const response = await request(app)
+      .put(`/carts/${testCartItemId}`)
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(updatedCartItem);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message", "Invalid product ID");
+  });
+
+  test("Gagal mengupdate item dengan kuantitas tidak valid", async () => {
+    const updatedCartItem = {
+      productId: 1,
+      quantity: -1,
+    };
+
+    const response = await request(app)
+      .put(`/carts/${testCartItemId}`)
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(updatedCartItem);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Quantity must be greater than 0"
+    );
+  });
+
+  test("Gagal mengupdate item dengan ID keranjang tidak ditemukan", async () => {
+    const updatedCartItem = {
+      productId: 1,
+      quantity: 3,
+    };
+
+    const response = await request(app)
+      .put("/carts/999999")
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(updatedCartItem);
+
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Cart with ID 999999 not found"
+    );
+  });
+});
+
+describe("DELETE /carts/:id", () => {
+  test("Berhasil menghapus item keranjang", async () => {
+    const response = await request(app)
+      .delete(`/carts/${testCartItemId}`)
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty(
+      "message",
+      `Cart with ID ${testCartItemId} successfully deleted`
+    );
+  });
+
+  test("Gagal menghapus item dengan ID keranjang tidak valid", async () => {
+    const response = await request(app)
+      .delete("/carts/invalid_id")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message", "ID Invalid cart");
+  });
+
+  test("Gagal menghapus item dengan ID keranjang tidak ditemukan", async () => {
+    const response = await request(app)
+      .delete(`/carts/${testCartItemId}`)
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty(
+      "message",
+      `Cart with ID ${testCartItemId} not found`
+    );
   });
 });
