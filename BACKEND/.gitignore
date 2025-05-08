@@ -3,3 +3,13 @@ node_modules
 note
 coverage
 dialogflow-key 
+BACKEND/config/dialogflow-key.json
+*.json.key
+**/*credentials*.json
+
+ecommerce-459220-4ff4bb960e6a
+
+
+/config/dialogflow-key.json
+/config/ecommerce-459220-4ff4bb960e6a.json
+ecommerce-459220-*.json
