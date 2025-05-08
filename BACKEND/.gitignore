@@ -3,13 +3,15 @@ node_modules
 note
 coverage
 dialogflow-key 
-BACKEND/config/dialogflow-key.json
+
+# Specifically ignore all credential files
+**/dialogflow-key.json
+**/config/dialogflow-key.json
+*credentials*.json
 *.json.key
-**/*credentials*.json
+*-key.json
 
-ecommerce-459220-4ff4bb960e6a
-
-
-/config/dialogflow-key.json
-/config/ecommerce-459220-4ff4bb960e6a.json
+# Specific service account files
 ecommerce-459220-*.json
+/config/ecommerce-459220-*.json
+/config/dialogflow-key.json
