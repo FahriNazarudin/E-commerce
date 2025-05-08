@@ -6,36 +6,46 @@ module.exports = class CartController {
       const { productId, quantity } = req.body;
       const userId = req.user.id;
 
-      if (!productId || isNaN(productId)) {
+      // Validate inputs
+      if (!productId || isNaN(parseInt(productId))) {
         throw { name: "ValidationError", message: "Invalid product ID" };
       }
-      if (!quantity || isNaN(quantity) || quantity <= 0) {
+      if (!quantity || isNaN(parseInt(quantity)) || parseInt(quantity) <= 0) {
         throw {
           name: "ValidationError",
           message: "Quantity must be greater than 0",
         };
       }
 
-      const product = await Product.findByPk(productId);
+      // Convert to integers
+      const parsedProductId = parseInt(productId);
+      const parsedQuantity = parseInt(quantity);
+
+      const product = await Product.findByPk(parsedProductId);
       if (!product) {
         throw { name: "NotFoundError", message: "Product not found" };
       }
-      if (product.stock < quantity) {
+      if (product.stock < parsedQuantity) {
         throw { name: "ValidationError", message: "Insufficient stock" };
       }
 
+      // Find existing cart item
       let cartItem = await Cart.findOne({
-        where: { userId, productId },
+        where: { userId, productId: parsedProductId },
       });
 
+      // Update or create cart item
       if (cartItem) {
-        cartItem.quantity += quantity;
-        await cartItem.save();
+        const newQuantity = cartItem.quantity + parsedQuantity;
+        if (newQuantity > product.stock) {
+          throw { name: "ValidationError", message: "Insufficient stock" };
+        }
+        await cartItem.update({ quantity: newQuantity });
       } else {
         cartItem = await Cart.create({
           userId,
-          productId,
-          quantity,
+          productId: parsedProductId,
+          quantity: parsedQuantity,
         });
       }
 
@@ -86,7 +96,7 @@ module.exports = class CartController {
       if (!cart) {
         throw {
           name: "NotFoundError",
-          message: `Cart with ID ${id} not found`
+          message: `Cart with ID ${id} not found`,
         };
       }
 

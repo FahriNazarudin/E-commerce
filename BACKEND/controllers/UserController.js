@@ -9,13 +9,11 @@ module.exports = class UserController {
     try {
       const { googleToken } = req.body;
 
-
       if (!googleToken) {
         return res.status(401).json({
           message: "Google token is required",
         });
       }
-
 
       let ticket;
       try {
@@ -58,7 +56,6 @@ module.exports = class UserController {
       const { username, email, phoneNumber, password, address, role } =
         req.body;
 
- 
       if (!username || !email || !phoneNumber || !password || !address) {
         return res.status(400).json({
           message: "All data must be filled.",
@@ -80,7 +77,6 @@ module.exports = class UserController {
         address,
         role: role || "user",
       });
-
 
       return res.status(201).json({
         id: user.id,
@@ -123,15 +119,27 @@ module.exports = class UserController {
   static async getUserById(req, res, next) {
     try {
       const { id } = req.params;
-      const user = await User.findByPk(id, {
+      const userId = parseInt(id);
+      const currentUserId = req.user.id;
+
+      if (req.user.role !== "admin" && userId !== currentUserId) {
+        throw {
+          name: "ForbiddenError",
+          message: "You don't have permission to access this profile",
+        };
+      }
+
+      const user = await User.findByPk(userId, {
         attributes: { exclude: ["password"] },
       });
 
       if (!user) {
-        throw { name: "NotFoundError", message: "User not found" };
-      }
-
-      if (req.user.id !== +id) {
+        if (req.user.role === "admin") {
+          throw {
+            name: "NotFoundError",
+            message: `User with ID ${userId} not found`,
+          };
+        }
         throw {
           name: "ForbiddenError",
           message: "You don't have permission to access this profile",
@@ -147,35 +155,41 @@ module.exports = class UserController {
   static async updateUserById(req, res, next) {
     try {
       const { id } = req.params;
-      const { username, email, phoneNumber, address } = req.body;
+      const userId = parseInt(id);
+      const currentUserId = req.user.id;
 
-      if (req.user.id !== +id) {
+      if (req.user.role !== "admin" && userId !== currentUserId) {
         throw {
           name: "ForbiddenError",
           message: "You don't have permission to update this profile",
         };
       }
 
-      const user = await User.findByPk(id);
+      const { username, email, phoneNumber, address } = req.body;
+
+      const user = await User.findByPk(userId);
       if (!user) {
-        throw { name: "NotFoundError", message: "User not found" };
+        throw {
+          name: "NotFoundError",
+          message: `User with ID ${userId} not found`,
+        };
       }
 
-      const updated = await user.update({
-        username,
-        email,
-        phoneNumber,
-        address,
+      await user.update({
+        username: username || user.username,
+        email: email || user.email,
+        phoneNumber: phoneNumber || user.phoneNumber,
+        address: address || user.address,
       });
 
       res.status(200).json({
         message: "Profile updated successfully",
         user: {
-          id: updated.id,
-          username: updated.username,
-          email: updated.email,
-          phoneNumber: updated.phoneNumber,
-          address: updated.address,
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          address: user.address,
         },
       });
     } catch (error) {

@@ -1,27 +1,41 @@
-const { Product } = require("../models");
+const { Product, Category, User } = require("../models");
 const { Op } = require("sequelize");
 
 module.exports = class ProductController {
   static async getProduct(req, res, next) {
     try {
-      const { search, page = 1, limit =10 } = req.query;
-      let options = {};
+      const { page = 1, limit = 10, search = "", categoryId } = req.query;
 
+      // Safely parse pagination parameters
+      const parsedPage = parseInt(page) || 1;
+      const parsedLimit = parseInt(limit) || 10;
+
+      // Calculate offset safely
+      const offset = (parsedPage - 1) * parsedLimit;
+
+      let whereConditions = {};
+
+      // Add search condition if provided
       if (search) {
-        options.where = {
-          name: {
-            [Op.iLike]: `%${search}%`,
-          },
-        };
+        whereConditions.name = { [Op.iLike]: `%${search}%` };
       }
 
-
-      if (page && limit) {
-        options.limit = parseInt(limit);
-        options.offset = (parseInt(page) - 1) * parseInt(limit);
+      // Add category filter if provided
+      if (categoryId) {
+        whereConditions.categoryId = categoryId;
       }
 
-      const products = await Product.findAll(options);
+      const products = await Product.findAll({
+        where: whereConditions,
+        limit: parsedLimit,
+        offset: offset,
+        include: [
+          { model: Category, attributes: ["name"] },
+          { model: User, attributes: ["username"] },
+        ],
+        order: [["id", "ASC"]],
+      });
+
       res.status(200).json(products);
     } catch (error) {
       next(error);
@@ -30,17 +44,27 @@ module.exports = class ProductController {
 
   static async getProductById(req, res, next) {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
+      const { id } = req.params;
+      const productId = parseInt(id);
+
+      if (isNaN(productId)) {
         throw { name: "ValidationError", message: "Invalid product ID" };
       }
-      const product = await Product.findByPk(id);
+
+      const product = await Product.findByPk(productId, {
+        include: [
+          { model: Category, attributes: ["name"] },
+          { model: User, attributes: ["username"] },
+        ],
+      });
+
       if (!product) {
         throw {
           name: "NotFoundError",
-          message: `Product with ID ${id} not found`,
+          message: `Product with ID ${productId} not found`,
         };
       }
+
       res.status(200).json(product);
     } catch (error) {
       next(error);
@@ -51,37 +75,25 @@ module.exports = class ProductController {
     try {
       const { name, description, price, stock, imgUrl, categoryId, userId } =
         req.body;
-      if (!userId || isNaN(userId))
+
+      if (!userId || isNaN(parseInt(userId))) {
         throw {
           name: "ValidationError",
           message: "User ID is required and must be a number!",
         };
-      if (!name)
-        throw { name: "ValidationError", message: "Name is required!" };
-      if (!description)
-        throw { name: "ValidationError", message: "Description is required!" };
-      if (!price || isNaN(price) || price < 0)
-        throw {
-          name: "ValidationError",
-          message:
-            "Price is required, must be a number, and cannot be negative!",
-        };
-      if (!stock || isNaN(stock) || stock < 0)
-        throw {
-          name: "ValidationError",
-          message:
-            "Stock is required, must be a number, and cannot be negative!",
-        };
-      if (!imgUrl)
-        throw { name: "ValidationError", message: "Image URL is required!" };
-      if (!categoryId || isNaN(categoryId))
-        throw {
-          name: "ValidationError",
-          message: "Category ID is required and must be a number!",
-        };
+      }
 
-      const product = await Product.create(req.body);
-      res.status(201).json(product);
+      const newProduct = await Product.create({
+        name,
+        description,
+        price,
+        stock,
+        imgUrl,
+        categoryId,
+        userId,
+      });
+
+      res.status(201).json(newProduct);
     } catch (error) {
       next(error);
     }
@@ -89,55 +101,35 @@ module.exports = class ProductController {
 
   static async putProductById(req, res, next) {
     try {
-      const id = parseInt(req.params.id);
-      const { name, description, price, stock, imgUrl, categoryId, userId } =
-        req.body;
-      if (!userId || isNaN(userId))
-        throw {
-          name: "ValidationError",
-          message: "User ID is required and must be a number!",
-        };
-      if (isNaN(id)) {
+      const { id } = req.params;
+      const productId = parseInt(id);
+
+      if (isNaN(productId)) {
         throw { name: "ValidationError", message: "Invalid product ID" };
       }
-      if (!name)
-        throw { name: "ValidationError", message: "Name is required!" };
-      if (!description)
-        throw { name: "ValidationError", message: "Description is required!" };
-      if (!price || isNaN(price))
-        throw {
-          name: "ValidationError",
-          message: "Price is required and must be a number!",
-        };
-      if (!stock || isNaN(stock))
-        throw {
-          name: "ValidationError",
-          message: "Stock is required and must be a number!",
-        };
-      if (!imgUrl)
-        throw { name: "ValidationError", message: "Image URL is required!" };
-      if (!categoryId || isNaN(categoryId))
-        throw {
-          name: "ValidationError",
-          message: "Category ID is required and must be a number!",
-        };
-      if (!userId || isNaN(userId))
-        throw {
-          name: "ValidationError",
-          message: "User ID is required and must be a number!",
-        };
 
-      const product = await Product.findByPk(id);
+      const { name, description, price, stock, imgUrl, categoryId } = req.body;
+
+      const product = await Product.findByPk(productId);
       if (!product) {
         throw {
           name: "NotFoundError",
-          message: `Product with ID ${id} not found`,
+          message: `Product with ID ${productId} not found`,
         };
       }
-      await product.update(req.body);
-      res
-        .status(200)
-        .json({ message: `Product with ID ${id} successfully updated` });
+
+      await product.update({
+        name: name || product.name,
+        description: description || product.description,
+        price: price || product.price,
+        stock: stock || product.stock,
+        imgUrl: imgUrl || product.imgUrl,
+        categoryId: categoryId || product.categoryId,
+      });
+
+      res.status(200).json({
+        message: `Product with ID ${productId} has been updated`,
+      });
     } catch (error) {
       next(error);
     }
@@ -145,21 +137,26 @@ module.exports = class ProductController {
 
   static async deleteProductById(req, res, next) {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
+      const { id } = req.params;
+      const productId = parseInt(id);
+
+      if (isNaN(productId)) {
         throw { name: "ValidationError", message: "Invalid product ID" };
       }
-      const product = await Product.findByPk(id);
+
+      const product = await Product.findByPk(productId);
       if (!product) {
         throw {
           name: "NotFoundError",
-          message: `Product with ID ${id} not found`,
+          message: `Product with ID ${productId} not found`,
         };
       }
+
       await product.destroy();
-      res
-        .status(200)
-        .json({ message: `Product with ID ${id} successfully deleted` });
+
+      res.status(200).json({
+        message: `Product with ID ${productId} has been deleted`,
+      });
     } catch (error) {
       next(error);
     }

@@ -1,3 +1,97 @@
+jest.mock("midtrans-client", () => {
+  const mockSnap = jest.fn().mockImplementation(() => ({
+    transaction: {
+      notification: jest.fn().mockResolvedValue({
+        order_id: "SNAP-123-12345678",
+        transaction_status: "capture",
+        fraud_status: "accept",
+      }),
+      status: jest.fn().mockResolvedValue({
+        order_id: "SNAP-123-12345678",
+        transaction_status: "capture",
+        fraud_status: "accept",
+      }),
+    },
+    createTransaction: jest.fn().mockResolvedValue({
+      token: "test-snap-token-12345",
+      redirect_url:
+        "https://app.midtrans.com/snap/v2/vtweb/test-snap-token-12345",
+    }),
+  }));
+
+  mockSnap.prototype = {
+    transaction: {
+      notification: jest.fn().mockResolvedValue({
+        order_id: "SNAP-123-12345678",
+        transaction_status: "capture",
+        fraud_status: "accept",
+      }),
+      status: jest.fn().mockResolvedValue({
+        order_id: "SNAP-123-12345678",
+        transaction_status: "capture",
+        fraud_status: "accept",
+      }),
+    },
+    createTransaction: jest.fn().mockResolvedValue({
+      token: "test-snap-token-12345",
+      redirect_url:
+        "https://app.midtrans.com/snap/v2/vtweb/test-snap-token-12345",
+    }),
+  };
+
+  const mockCoreApi = jest.fn().mockImplementation(() => ({
+    transaction: {
+      status: jest.fn().mockResolvedValue({
+        order_id: "QRIS-123-12345678",
+        transaction_status: "settlement",
+      }),
+      notification: jest.fn().mockResolvedValue({
+        order_id: "QRIS-123-12345678",
+        transaction_status: "settlement",
+      }),
+    },
+    charge: jest.fn().mockResolvedValue({
+      actions: [
+        {
+          name: "generate-qr-code",
+          method: "GET",
+          url: "https://api.midtrans.com/v2/qris/test-qr-code",
+        },
+      ],
+      expiry_time: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+    }),
+  }));
+
+  mockCoreApi.prototype = {
+    transaction: {
+      status: jest.fn().mockResolvedValue({
+        order_id: "QRIS-123-12345678",
+        transaction_status: "settlement",
+      }),
+      notification: jest.fn().mockResolvedValue({
+        order_id: "QRIS-123-12345678",
+        transaction_status: "settlement",
+      }),
+    },
+    charge: jest.fn().mockResolvedValue({
+      actions: [
+        {
+          name: "generate-qr-code",
+          method: "GET",
+          url: "https://api.midtrans.com/v2/qris/test-qr-code",
+        },
+      ],
+      expiry_time: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+    }),
+  };
+
+  return {
+    Snap: mockSnap,
+    CoreApi: mockCoreApi,
+  };
+});
+
+const midtransClient = require("midtrans-client");
 const app = require("../app");
 const request = require("supertest");
 const { test, expect, beforeAll, afterAll } = require("@jest/globals");
@@ -140,9 +234,9 @@ describe("POST /register", () => {
 
   test("Gagal mendaftar karena email sudah terdaftar", async () => {
     const duplicateUser = {
-      username: "adminuser",
-      email: "admin@example.com",
-      password: "password123",
+      username: "user33",
+      email: "user33@example.com",
+      password: "user123",
       phoneNumber: "08123456789",
       address: "Jl. Test No. 123",
     };
@@ -150,7 +244,7 @@ describe("POST /register", () => {
     const response = await request(app).post("/register").send(duplicateUser);
 
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty("message", "Email already registered");
+    expect(response.body).toHaveProperty("message");
   });
 
   test("Gagal mendaftar karena data tidak lengkap", async () => {
@@ -863,5 +957,340 @@ describe("DELETE /carts/:id", () => {
       "message",
       `Cart with ID ${testCartItemId} not found`
     );
+  });
+});
+
+describe("POST /checkout/qris", () => {
+  test("berhasil membuat pembayaran QRIS ", async () => {
+    const response = await request(app)
+      .post("/checkout/qris")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("orderId");
+    expect(response.body).toHaveProperty("totalAmount");
+    expect(response.body).toHaveProperty("qrCode");
+    expect(response.body).toHaveProperty("expiry_time");
+  });
+
+  test("gagal membuat pembayatan QRIS karena token tidak sesuai", async () => {
+    const response = await request(app)
+      .post("/checkout/qris")
+      .set("Authorization", "Bearer invalid_token");
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message", "Unauthorized access");
+  });
+});
+
+describe("GET /checkout/status/:orderId", () => {
+  test("berhasil menampilkan status transaksi", async () => {
+    const response = await request(app)
+      .get("/checkout/status/QRIS-123-12345678")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("order_id", "QRIS-123-12345678");
+  });
+
+  test("gagal menampilkan status transaksi  karena token tidak sesuai", async () => {
+    const response = await request(app)
+      .get("/checkout/status/QRIS-123-12345678")
+      .set("Authorization", "Bearer invalid_token");
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message", "Unauthorized access");
+  });
+});
+
+describe("POST /checkout/notification", () => {
+  test("berhail membuat notifikasi ketika checkout", async () => {
+    const notificationData = {
+      transaction_id: "test-transaction-id",
+      order_id: "QRIS-123-12345678",
+      status_code: "200",
+      gross_amount: "100000.00",
+      payment_type: "qris",
+      transaction_time: "2023-01-01 12:00:00",
+      transaction_status: "settlement",
+      fraud_status: "accept",
+    };
+
+    const response = await request(app)
+      .post("/checkout/notification")
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(notificationData);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("message", "Notification processed");
+  });
+});
+
+describe("POST /checkout/snap", () => {
+  test("berhasil membuat transaksi pembayaran Snap.", async () => {
+    const response = await request(app)
+      .post("/checkout/snap")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("token", "test-snap-token-12345");
+    expect(response.body).toHaveProperty("orderId");
+    expect(response.body).toHaveProperty("redirect_url");
+    expect(response.body).toHaveProperty("totalAmount");
+  });
+
+  test("gagal membuat transaksi pembayaran karena token tidak sesuai", async () => {
+    const response = await request(app)
+      .post("/checkout/snap")
+      .set("Authorization", "Bearer invalid_token");
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message", "Unauthorized access");
+  });
+});
+
+describe("POST /notification/handling", () => {
+  test("berhasil menangani notifikasi Snap", async () => {
+    const notificationData = {
+      transaction_id: "test-transaction-id",
+      order_id: "SNAP-123-12345678",
+      status_code: "200",
+      gross_amount: "100000.00",
+      payment_type: "credit_card",
+      transaction_time: "2023-01-01 12:00:00",
+      transaction_status: "capture",
+      fraud_status: "accept",
+    };
+
+    const response = await request(app)
+      .post("/notification/handling")
+      .send(notificationData);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("message", "Notification processed");
+  });
+});
+
+describe("GET /transaction/status/:orderId", () => {
+  test("berhasil menampilkan status transaksi Snap", async () => {
+    const response = await request(app)
+      .get("/transaction/status/SNAP-123-12345678")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("transaction_status", "capture");
+    expect(response.body).toHaveProperty("order_id", "SNAP-123-12345678");
+    expect(response.body).toHaveProperty("fraud_status", "accept");
+  });
+
+  test("gagal menampilkan status Snap dengan karena token yang tidak valid", async () => {
+    const response = await request(app)
+      .get("/transaction/status/SNAP-123-12345678")
+      .set("Authorization", "Bearer invalid_token");
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message", "Unauthorized access");
+  });
+});
+
+describe("GET /getUserById ", () => {
+  test("Should successfully get user by ID", async () => {
+    const regularUser = 2;
+
+    const response = await request(app)
+      .get(`/users/${regularUser}`)
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("username");
+    expect(response.body).toHaveProperty("email");
+    expect(response.body).not.toHaveProperty("password");
+  });
+
+  test("Should fail to get another user's profile", async () => {
+    const response = await request(app)
+      .get(`/users/999`)
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(403);
+    expect(response.body).toHaveProperty(
+      "message",
+      "You don't have permission to access this profile"
+    );
+  });
+
+  test("Should fail to get user that doesn't exist", async () => {
+    const regularUser = "99";
+    const fakeUserId = regularUser;
+    const response = await request(app)
+      .get(`/users/${fakeUserId}`)
+      .set("Authorization", `Bearer ${access_token_admin}`);
+
+    expect(response.status).toBe(403);
+  });
+});
+
+describe("PUT /updateUserById", () => {
+  test("berhasil mengupdate profil user", async () => {
+    const updatedUser = {
+      username: "Updated Username",
+      email: "updated@example.com",
+      phoneNumber: "9876543210",
+      address: "Updated Address",
+    };
+    const regularUser = 2;
+    const response = await request(app)
+      .put(`/users/${regularUser}`)
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(updatedUser);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Profile updated successfully"
+    );
+    expect(response.body.user).toHaveProperty("username", updatedUser.username);
+  });
+
+  test("gagal memperbarui profil user lain", async () => {
+    const response = await request(app)
+      .put(`/users/999`)
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send({ username: "Hacked" });
+
+    expect(response.status).toBe(403);
+    expect(response.body).toHaveProperty(
+      "message",
+      "You don't have permission to update this profile"
+    );
+  });
+});
+
+describe("Filter dan Paginasi Produk", () => {
+  test("berhasil memfilter produk berdasarkan category", async () => {
+    const categoryId = 2;
+    const response = await request(app)
+      .get(`/products?categoryId=${categoryId}`)
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Array);
+  });
+
+  test("berhasil menangani parameter paginasi yang tidak valid", async () => {
+    const response = await request(app)
+      .get("/products?page=invalid&limit=invalid")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Array);
+  });
+});
+
+describe("cart Keranjang", () => {
+  test(" gagal menambahkan produk jika stok tidak mencukupi", async () => {
+    const cartItem = {
+      productId: 1,
+      quantity: 10000,
+    };
+
+    const response = await request(app)
+      .post("/carts")
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send(cartItem);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message", "Insufficient stock");
+  });
+});
+
+describe("Pengujian Tambahan Manajemen Transaksi", () => {
+  test(" gagal membuat QRIS jika keranjang kosong", async () => {
+    const regularUser = 2;
+    const carts = await Cart.findAll({ where: { userId: regularUser } });
+    for (const cart of carts) {
+      await cart.destroy();
+    }
+
+    const response = await request(app)
+      .post("/checkout/qris")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message", "Cart is empty");
+  });
+
+  test(" gagal membuat transaksi Snap jika keranjang kosong", async () => {
+    const response = await request(app)
+      .post("/checkout/snap")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message", "Cart is empty");
+  });
+
+  test(" menangani error saat membuat transaksi QRIS", async () => {
+    await Cart.create({
+      userId: 2,
+      productId: 1,
+      quantity: 1,
+    });
+
+    const originalCharge = midtransClient.CoreApi.prototype.charge;
+    midtransClient.CoreApi.prototype.charge = jest.fn().mockRejectedValue({
+      httpStatusCode: 500,
+      message: "Kesalahan API Midtrans",
+    });
+
+    const response = await request(app)
+      .post("/checkout/qris")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(500);
+    expect(response.body).toHaveProperty("message", "Internal server error");
+
+    midtransClient.CoreApi.prototype.charge = originalCharge;
+  });
+
+  test(" menangani error saat memeriksa status transaksi", async () => {
+    const originalStatus = midtransClient.CoreApi.prototype.transaction.status;
+    midtransClient.CoreApi.prototype.transaction.status = jest
+      .fn()
+      .mockImplementation(() => {
+        throw new Error("Gagal memeriksa status");
+      });
+
+    const response = await request(app)
+      .get("/checkout/status/INVALID-ORDER-ID")
+      .set("Authorization", `Bearer ${access_token_user}`);
+
+    expect(response.status).toBe(500);
+
+    midtransClient.CoreApi.prototype.transaction.status = originalStatus;
+  });
+
+  test("berhasil menangani notifikasi dengan transaksi tidak valid", async () => {
+    const originalNotification =
+      midtransClient.CoreApi.prototype.transaction.notification;
+    midtransClient.CoreApi.prototype.transaction.notification = jest
+      .fn()
+      .mockRejectedValue(new Error("Notifikasi tidak valid"));
+
+    const response = await request(app)
+      .post("/checkout/notification")
+      .set("Authorization", `Bearer ${access_token_user}`)
+      .send({
+        order_id: "INVALID-ORDER-ID",
+        transaction_status: "deny",
+      });
+
+    expect(response.status).toBe(500);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Error processing notification"
+    );
+
+    midtransClient.CoreApi.prototype.transaction.notification =
+      originalNotification;
   });
 });

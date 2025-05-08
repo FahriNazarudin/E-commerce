@@ -1,40 +1,35 @@
-function errorHandler(error, req, res, next) {
-  let status = 500;
-  let message = "Internal Server Error";
+const errorHandler = (err, req, res, next) => {
+  console.log(err);
+  let code = 500;
+  let message = "Internal server error";
 
-  if (
-    error.name === "SequelizeValidationError" ||
-    error.name === "SequelizeUniqueConstraintError"
-  ) {
-    status = 400;
-    message = error.errors.map((e) => e.message).join(", ");
-  } else if (error.name === "ValidationError") {
-    status = 400;
-    message = error.message;
-  } else if (error.name === "BadRequest" || error.name === "BadRequestError") {
-    status = 400;
-    message = error.message;
-  } else if (
-    error.name === "NotFound" ||
-    error.name === "NotFoundError" ||
-    (!error.name && error.message.includes("not found"))
-  ) {
-    status = 404;
-    message = error.message;
-  } else if (error.name === "Forbidden" || error.name === "ForbiddenError") {
-    status = 403;
-    message = error.message || "Admin access required";
-  } else if (
-    error.name === "Unauthorized" ||
-    error.name === "UnauthorizedError" ||
-    error.name === "JsonWebTokenError" ||
-    error.name === "TokenExpiredError"
-  ) {
-    status = 401;
-    message = error.message || "Unauthorized access";
+  if (err.name === "SequelizeValidationError") {
+    code = 400;
+    message = err.errors[0].message;
+  } else if (err.name === "SequelizeUniqueConstraintError") {
+    code = 400;
+    message = err.errors[0].message;
+  } else if (err.name === "ValidationError") {
+    code = 400;
+    message = err.message;
+  } else if (err.name === "JsonWebTokenError") {
+    code = 401;
+    message = "Invalid token";
+  } else if (err.name === "InvalidToken") {
+    code = 401;
+    message = "Invalid token";
+  } else if (err.name === "Unauthorized" || err.name === "UnauthorizedError") {
+    code = 401;
+    message = err.message || "Unauthorized access";
+  } else if (err.name === "ForbiddenError") {
+    code = 403;
+    message = err.message || "Forbidden access";
+  } else if (err.name === "NotFoundError") {
+    code = 404;
+    message = err.message;
   }
 
-  res.status(status).json({ message });
-}
+  res.status(code).json({ message });
+};
 
 module.exports = errorHandler;
