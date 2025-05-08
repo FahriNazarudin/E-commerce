@@ -100,6 +100,13 @@ const { hashPassword } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 const { queryInterface } = sequelize;
 const fs = require("fs").promises;
+const { DialogflowController } = require("../controllers/DialogflowController");
+const path = require("path");
+const { struct } = require("pb-util");
+const mockSessionsClient = {
+  projectAgentSessionPath: jest.fn(),
+  detectIntent: jest.fn(),
+};
 
 let access_token_admin;
 let access_token_user;
@@ -1292,5 +1299,359 @@ describe("Pengujian Tambahan Manajemen Transaksi", () => {
 
     midtransClient.CoreApi.prototype.transaction.notification =
       originalNotification;
+  });
+});
+jest.mock("@google-cloud/dialogflow", () => {
+  return {
+    SessionsClient: jest.fn().mockImplementation(() => mockSessionsClient),
+  };
+});
+
+describe("DialogflowController", () => {
+  let dialogflowController;
+  const mockProjectId = "ecommerce-459220";
+  const mockSessionId = "test-session-123";
+  const mockCredentialsPath = path.join(
+    __dirname,
+    "ecommerce-459220-e1aa0723bcf0.json"
+  );
+
+  beforeEach(() => {
+
+    jest.clearAllMocks();
+
+
+    mockSessionsClient.projectAgentSessionPath.mockReturnValue(
+      "projects/ecommerce-459220/agent/sessions/test-session-123"
+    );
+
+
+    mockSessionsClient.detectIntent.mockResolvedValue([
+      {
+        responseId: "response-id",
+        queryResult: {
+          fulfillmentText: "Hello, how can I help you?",
+          intent: {
+            displayName: "Welcome Intent",
+            confidence: 0.9,
+          },
+          parameters: struct.encode({ key: "value" }),
+          allRequiredParamsPresent: true,
+        },
+      },
+    ]);
+
+    // Create a new instance for each test, but inject the mock session client
+    dialogflowController = new DialogflowController(
+      mockProjectId,
+      mockCredentialsPath,
+      mockSessionsClient // Pass the mock directly
+    );
+  });
+
+  test("should initialize with correct credentials", () => {
+    expect(dialogflowController.projectId).toBe(mockProjectId);
+    expect(dialogflowController.sessionClient).toBeDefined();
+  });
+
+  test("should detect intent successfully", async () => {
+    const query = "Hello";
+    const languageCode = "en-US";
+
+    const response = await dialogflowController.detectIntent(
+      mockSessionId,
+      query,
+      languageCode
+    );
+
+    expect(mockSessionsClient.projectAgentSessionPath).toHaveBeenCalledWith(
+      mockProjectId,
+      mockSessionId
+    );
+    expect(mockSessionsClient.detectIntent).toHaveBeenCalled();
+    expect(response.fulfillmentText).toBe("Hello, how can I help you?");
+    expect(response.intent).toBe("Welcome Intent");
+    expect(response.confidence).toBe(0.9);
+    expect(response.parameters).toEqual({ key: "value" });
+  });
+
+  test("berhasil menangani kesalahan apabila proses deteksi intent gagal", async () => {
+    mockSessionsClient.detectIntent.mockRejectedValue(new Error("API Error"));
+
+    await expect(
+      dialogflowController.detectIntent(mockSessionId, "Hello", "en-US")
+    ).rejects.toThrow("API Error");
+  });
+
+  test("berhasil mengirimkan permintaan yang sesuai ke fungsi detectIntent", async () => {
+    const query = "Hello";
+    const languageCode = "en-US";
+
+    await dialogflowController.detectIntent(mockSessionId, query, languageCode);
+
+    const expectedRequest = {
+      session: "projects/ecommerce-459220/agent/sessions/test-session-123",
+      queryInput: {
+        text: {
+          text: query,
+          languageCode: languageCode,
+        },
+      },
+    };
+
+    expect(mockSessionsClient.detectIntent).toHaveBeenCalledWith(
+      expectedRequest
+    );
+  });
+
+  test("berhasil mengelola konteks yang disertakan dalam permintaan", async () => {
+    const query = "Hello";
+    const languageCode = "en-US";
+    const contexts = [
+      { name: "test-context", lifespanCount: 5, parameters: { foo: "bar" } },
+    ];
+
+    await dialogflowController.detectIntentWithContext(
+      mockSessionId,
+      query,
+      languageCode,
+      contexts
+    );
+
+    const expectedRequest = {
+      session: "projects/ecommerce-459220/agent/sessions/test-session-123",
+      queryInput: {
+        text: {
+          text: query,
+          languageCode: languageCode,
+        },
+      },
+      queryParams: {
+        contexts: contexts.map((context) => ({
+          name: `projects/ecommerce-459220/agent/sessions/test-session-123/contexts/${context.name}`,
+          lifespanCount: context.lifespanCount,
+          parameters: struct.encode(context.parameters),
+        })),
+      },
+    };
+
+    expect(mockSessionsClient.detectIntent).toHaveBeenCalledWith(
+      expectedRequest
+    );
+  });
+
+  test("berhasi membuat ID sesi baru ketika tidak disediakan", () => {
+    const sessionId = dialogflowController.createSession();
+    expect(typeof sessionId).toBe("string");
+    expect(sessionId.length).toBeGreaterThan(0);
+  });
+});
+
+describe("DialogflowController Additional Tests", () => {
+  // Test constructor error handling
+  test("berhasil  menangani kesalahan ketika file kredensial tidak ada", () => {
+    const nonExistentPath = "/path/to/nonexistent/file.json";
+    const controller = new DialogflowController(
+      "test-project",
+      nonExistentPath
+    );
+    expect(controller.sessionClient).toBeNull();
+  });
+  
+  test("berhasil menangani kesalahan pada konstruktor", () => {
+    jest.spyOn(console, "error").mockImplementation(() => {});
+    const mockError = new Error("Initialization error");
+    const originalSessionsClient =
+      require("@google-cloud/dialogflow").SessionsClient;
+    require("@google-cloud/dialogflow").SessionsClient = jest
+      .fn()
+      .mockImplementation(() => {
+        throw mockError;
+      });
+
+    const controller = new DialogflowController("test-project", "test-path");
+    expect(controller.sessionClient).toBeNull();
+    expect(console.error).toHaveBeenCalled();
+
+    require("@google-cloud/dialogflow").SessionsClient = originalSessionsClient;
+    console.error.mockRestore();
+  });
+  
+  // Test simulateResponse for all possible conditions
+  test("berhasil merespons simulasi yang sesuai untuk berbagai permintaan", () => {
+    const testCases = [
+      {
+        input: "hello",
+        expected: "Hello there! How can I help you with our products today?",
+      },
+      {
+        input: "hi there",
+        expected: "Hello there! How can I help you with our products today?",
+      },
+      {
+        input: "product information",
+        expected:
+          "We offer a wide range of products including furniture, kitchen appliances, and home decor. You can browse our collection on the main page.",
+      },
+      {
+        input: "what's the price",
+        expected:
+          "Our prices range from affordable to premium options. You can check the price of each product on its details page.",
+      },
+      {
+        input: "delivery options",
+        expected:
+          "We offer free shipping on orders over $50. Delivery usually takes 3-5 business days.",
+      },
+      {
+        input: "shipping cost",
+        expected:
+          "We offer free shipping on orders over $50. Delivery usually takes 3-5 business days.",
+      },
+      {
+        input: "payment methods",
+        expected:
+          "We accept various payment methods including credit cards, QRIS, and digital wallets like OVO and GoPay.",
+      },
+      {
+        input: "return policy",
+        expected:
+          "Our return policy allows you to return products within 14 days of delivery if you're not satisfied.",
+      },
+      {
+        input: "refund process",
+        expected:
+          "Our return policy allows you to return products within 14 days of delivery if you're not satisfied.",
+      },
+      {
+        input: "how to contact support",
+        expected:
+          "You can contact our customer support team at support@ikeastore.com or call us at +62 123-4567-8900.",
+      },
+      {
+        input: "help me please",
+        expected:
+          "You can contact our customer support team at support@ikeastore.com or call us at +62 123-4567-8900.",
+      },
+      {
+        input: "thank you",
+        expected:
+          "You're welcome! Feel free to ask if you need further assistance.",
+      },
+      {
+        input: "goodbye",
+        expected: "Thank you for chatting with us. Have a great day!",
+      },
+      {
+        input: "bye",
+        expected: "Thank you for chatting with us. Have a great day!",
+      },
+      {
+        input: "random question",
+        expected:
+          "I'm not sure I understand. Could you rephrase your question? You can ask about our products, prices, delivery, payment methods, or return policy.",
+      },
+    ];
+
+    testCases.forEach(({ input, expected }) => {
+      const response = DialogflowController.simulateResponse(input);
+      expect(response).toBe(expected);
+    });
+  });
+  
+  // Test simulateResponse as instance method
+  test("berhasil menggunakan metode instans simulateResponse", () => {
+    const controller = new DialogflowController(
+      "test-project",
+      "test-path",
+      null
+    );
+    const spy = jest.spyOn(DialogflowController, "simulateResponse");
+
+    const response = controller.simulateResponse("hello");
+    expect(spy).toHaveBeenCalledWith("hello");
+    expect(response).toBe(
+      "Hello there! How can I help you with our products today?"
+    );
+
+    spy.mockRestore();
+  });
+
+  // Test fallback to simulateResponse when sessionClient is null
+  test("berhasil menggunakan simulateResponse ketika sessionClient bernilai null", async () => {
+    const controller = new DialogflowController(
+      "test-project",
+      "test-path",
+      null
+    );
+    const spy = jest.spyOn(controller, "simulateResponse");
+
+    await controller.detectIntent("test-session", "hello", "en-US");
+    expect(spy).toHaveBeenCalledWith("hello");
+
+    spy.mockRestore();
+  });
+  
+  test("berhasil menggunakan simulateResponse dalam detectIntentWithContext ketika sessionClient bernilai nul", async () => {
+    const controller = new DialogflowController(
+      "test-project",
+      "test-path",
+      null
+    );
+    const spy = jest.spyOn(controller, "simulateResponse");
+
+    await controller.detectIntentWithContext("test-session", "hello", "en-US");
+    expect(spy).toHaveBeenCalledWith("hello");
+
+    spy.mockRestore();
+  });
+
+  // Test processMessage static method
+  test("berhasil memproses pesan sukses", async () => {
+    const req = {
+      body: { message: "hello" }
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn()
+    };
+    const next = jest.fn();
+    
+    await DialogflowController.processMessage(req, res, next);
+    
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      message: "Hello there! How can I help you with our products today?"
+    });
+  });
+  
+  test("berhasil mengembalikan kesalahan ketika pesan tidak ada", async () => {
+    const req = { body: {} };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+
+    await DialogflowController.processMessage(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ message: "Message is required" });
+  });
+  
+  test("berhasil menghandle error di processMessage", async () => {
+    const req = {
+      body: { message: "hello" }
+    };
+    const res = {};
+    const next = jest.fn();
+    
+    // Force an error by calling a method on undefined
+    res.status = undefined;
+    
+    await DialogflowController.processMessage(req, res, next);
+    
+    expect(next).toHaveBeenCalled();
+    expect(next.mock.calls[0][0]).toBeInstanceOf(Error);
   });
 });

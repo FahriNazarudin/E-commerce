@@ -105,7 +105,7 @@ module.exports = class TransactionController {
       }
 
       let snap = new midtransClient.Snap({
-        isProduction: false,
+        isProduction: true,
         serverKey:
           process.env.SERVER_KEY_MIDTRANS ||
           "SB-Mid-server-_9z4yvxLLVL9jJXFL4CivsHc",

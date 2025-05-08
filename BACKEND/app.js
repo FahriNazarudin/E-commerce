@@ -8,6 +8,7 @@ const CategoryController = require("./controllers/CategoryController");
 const UserController = require("./controllers/UserController");
 const CartController = require("./controllers/CartController");
 const TransactionController = require("./controllers/TransactionController");
+const DialogflowController = require("./controllers/DialogflowController");
 const authentication = require("./middlewares/authentication");
 const { authorizationAdmin } = require("./middlewares/authorization");
 const errorHandler = require("./middlewares/errorHandler");
@@ -21,11 +22,11 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Public routes
+
 app.post("/register", UserController.register);
 app.post("/login", UserController.login);
 app.post("/login/google", UserController.googleLogin);
-// Move notification handling to public route
+
 app.post("/notification/handling", TransactionController.handleNotification);
 
 app.use(authentication);
@@ -74,10 +75,12 @@ app.get(
   TransactionController.getTransactionStatus
 );
 
+app.post("/chatbot", DialogflowController.processMessage);
+
 app.use(errorHandler);
 
-// app.listen(port, () => {
-//   console.log(`Example app listening on port ${port}`);
-// });
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
 
 module.exports = app;
