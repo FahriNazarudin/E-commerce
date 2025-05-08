@@ -177,7 +177,7 @@ export default function EditProfilePage({ baseUrl }) {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate("/")}
               >
                 Cancel
               </button>

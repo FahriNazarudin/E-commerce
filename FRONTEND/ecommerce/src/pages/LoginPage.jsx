@@ -6,8 +6,8 @@ import PropTypes from "prop-types";
 
 export default function LoginPage({ baseUrl }) {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("admin1@example.com");
-  const [password, setPassword] = useState("admin123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = async (event) => {
     event.preventDefault();

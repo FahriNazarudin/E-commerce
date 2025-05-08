@@ -9,7 +9,14 @@ function CategoryFilter({ onCategoryChange, baseUrl }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/categories`);
+        const token = localStorage.getItem("access_token");
+        const response = await axios.get(`${baseUrl}/categories`, {
+          headers: token
+            ? {
+                Authorization: `Bearer ${token}`,
+              }
+            : {},
+        });
         setCategories(response.data);
       } catch (err) {
         console.error("Gagal mengambil kategori:", err);
@@ -25,10 +32,11 @@ function CategoryFilter({ onCategoryChange, baseUrl }) {
   };
 
   return (
-    <div className="p-3" >
-      <h4 className="mb-2"> Select Category</h4>
+    <div className="d-flex col-5  p-3">
+      <h4 style={{fontSize: "15px"}}> Select Category</h4>
       <select
         className="form-select"
+        style={{ width: "150px", marginLeft: "10px" }}
         value={activeCategory === null ? "all" : activeCategory}
         onChange={handleCategoryChange}
       >

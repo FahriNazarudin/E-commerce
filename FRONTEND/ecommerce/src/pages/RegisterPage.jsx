@@ -4,11 +4,11 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 export default function RegisterPage({baseUrl}) {
-  const [username, setUsername] = useState("user");
-  const [email, setEmail] = useState("user@mail.com");
-  const [password, setPassword] = useState("user123");
-  const [phoneNumber, setPhoneNumber] = useState("000000");
-  const [address, setAddress] = useState("jalan user");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
