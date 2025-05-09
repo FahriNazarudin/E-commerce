@@ -21,6 +21,11 @@ export default function Navbar({ baseUrl, cartCount }) {
   };
 
   const fetchCart = async () => {
+    // Check if user is logged in first
+    if (!localStorage.getItem("access_token")) {
+      return;
+    }
+
     try {
       const response = await axios.get(`${baseUrl}/carts`, {
         headers: {
@@ -30,13 +35,20 @@ export default function Navbar({ baseUrl, cartCount }) {
       setCarts(response.data);
       // console.log(response.data, "<<<<");
     } catch (err) {
-      console.error("Gagal mengambil produk:", err);
-      Swal.fire({
-        title: "Error!",
-        text: "Gagal memuat daftar produk",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      console.error("Failed to fetch cart:", err);
+      if (err.response && err.response.status === 401) {
+        // Handle unauthorized error (expired or invalid token)
+        localStorage.removeItem("access_token");
+        // Optionally redirect to login
+        // navigate("/login");
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to load cart items",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     }
   };
 
@@ -55,14 +67,14 @@ export default function Navbar({ baseUrl, cartCount }) {
             className="img-fluid"
           />
         </Link>
-        
-        <button 
-          className="navbar-toggler" 
-          type="button" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#navbarContent" 
-          aria-controls="navbarContent" 
-          aria-expanded="false" 
+
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
@@ -88,7 +100,10 @@ export default function Navbar({ baseUrl, cartCount }) {
               </div>
               <div className="nav-item">
                 <Link className="nav-link" to="/login">
-                  <button className="btn btn-dark btn-sm" onClick={handleLogout}>
+                  <button
+                    className="btn btn-dark btn-sm"
+                    onClick={handleLogout}
+                  >
                     Logout
                   </button>
                 </Link>

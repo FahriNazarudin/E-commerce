@@ -19,7 +19,7 @@ export default function LoginPage({ baseUrl }) {
       localStorage.setItem("access_token", response.data.access_token);
       localStorage.setItem("userId", response.data.userId);
       console.log(response.data.role, "APA INI ROLE");
-      
+
       if (response.data.role === "admin") {
         navigate("/admin");
       } else {
@@ -50,9 +50,13 @@ export default function LoginPage({ baseUrl }) {
 
   const handleCredentialResponse = async (response) => {
     try {
+      console.log("Google token received:", response.credential);
+
       const { data } = await axios.post(`${baseUrl}/login/google`, {
         googleToken: response.credential,
       });
+
+      console.log("Google login successful:", data);
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("userId", data.userId);
       if (data.role === "admin") {
@@ -68,33 +72,75 @@ export default function LoginPage({ baseUrl }) {
         timer: 1500,
       });
     } catch (error) {
+      console.error("Google login error details:", error);
+
       Swal.fire({
         title: "Error!",
         text: error.response?.data?.message || "Failed to log in with Google",
         icon: "error",
         confirmButtonText: "OK",
       });
-      console.error("Google login failed:", error.response?.data || error);
     }
   };
 
   useEffect(() => {
-    if (!import.meta.env.VITE_GOOGLE_CLIENT_ID) {
+    // Check if Google SDK is loaded and client ID is available
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    console.log("Google Client ID available:", !!googleClientId);
+
+    if (!googleClientId) {
       console.error("Google Client ID not found. Check your .env file.");
       return;
     }
-    if (!window.google) {
-      console.error("Google SDK not loaded. Check the script in index.html.");
-      return;
+
+    // Initialize Google Sign-In with a slight delay to ensure DOM is ready
+    const initializeGoogle = () => {
+      if (window.google && window.google.accounts) {
+        console.log("Initializing Google Sign-In button");
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: handleCredentialResponse,
+        });
+
+        const buttonDiv = document.getElementById("buttonDiv");
+        if (buttonDiv) {
+          window.google.accounts.id.renderButton(buttonDiv, {
+            theme: "outline",
+            size: "large",
+            text: "signin_with", // Options: signin_with, signup_with, continue_with
+            shape: "rectangular", // Options: rectangular, pill, circle
+            logo_alignment: "center",
+          });
+        } else {
+          console.error("Google Sign-In button container not found");
+        }
+      } else {
+        console.error("Google SDK not loaded properly");
+      }
+    };
+
+    // Try initializing, or wait for the SDK to load
+    if (window.google && window.google.accounts) {
+      initializeGoogle();
+    } else {
+      // Add a script to check if Google SDK gets loaded later
+      const checkGoogleInterval = setInterval(() => {
+        if (window.google && window.google.accounts) {
+          clearInterval(checkGoogleInterval);
+          initializeGoogle();
+        }
+      }, 100);
+
+      // Clear interval after 10 seconds to prevent infinite checking
+      setTimeout(() => clearInterval(checkGoogleInterval), 10000);
     }
-    window.google.accounts.id.initialize({
-      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-      callback: handleCredentialResponse,
-    });
-    window.google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" }
-    );
+
+    return () => {
+      // Clean up any intervals if component unmounts
+      if (window.checkGoogleInterval) {
+        clearInterval(window.checkGoogleInterval);
+      }
+    };
   }, []);
 
   return (

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function RegisterPage({baseUrl}) {
+export default function RegisterPage({ baseUrl }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,6 +15,19 @@ export default function RegisterPage({baseUrl}) {
   const handleRegister = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    // Validate phone number
+    if (!/^\d{8,}$/.test(phoneNumber.replace(/[+\-\s]/g, ""))) {
+      Swal.fire({
+        title: "Error!",
+        text: "Phone number must be at least 8 digits",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
       await axios.post(`${baseUrl}/register`, {
         username,
