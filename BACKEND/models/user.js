@@ -39,7 +39,6 @@ module.exports = (sequelize, DataTypes) => {
             args: [8],
             msg: "Phone number must be at least 8 characters long",
           },
-          isNumeric: { msg: "Phone number must be a number" },
         },
       },
       password: {

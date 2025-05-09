@@ -2,6 +2,10 @@ const { comparePassword } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 const { User } = require("../models");
 const { OAuth2Client } = require("google-auth-library");
+
+// Create the client outside the class for debugging purposes
+console.log("WEB_CLIENT_ID:", process.env.WEB_CLIENT_ID);
+// Initialize the client without parameters first
 const client = new OAuth2Client();
 
 module.exports = class UserController {
@@ -15,22 +19,55 @@ module.exports = class UserController {
         });
       }
 
+      console.log(
+        "Google login attempt with token length:",
+        googleToken.length
+      );
+
       let ticket;
       try {
+        // Try verifying with direct audience
         ticket = await client.verifyIdToken({
           idToken: googleToken,
           audience: process.env.WEB_CLIENT_ID,
         });
+
+        console.log("Token successfully verified");
       } catch (error) {
-        return res.status(401).json({
-          message: "Invalid Google token",
-        });
+        console.error("Google token verification failed:", error);
+
+        // Try again with a new client instance as a fallback
+        try {
+          const fallbackClient = new OAuth2Client(process.env.WEB_CLIENT_ID);
+          ticket = await fallbackClient.verifyIdToken({
+            idToken: googleToken,
+          });
+          console.log("Token verified with fallback client");
+        } catch (fallbackError) {
+          console.error("Fallback verification also failed:", fallbackError);
+          return res.status(401).json({
+            message: "Invalid Google token",
+          });
+        }
       }
 
       const payload = ticket.getPayload();
+      console.log("Google payload received:", {
+        name: payload.name,
+        email: payload.email,
+        sub: payload.sub,
+      });
+
+      // Check if we got a valid email from Google
+      if (!payload || !payload.email) {
+        return res.status(400).json({
+          message: "Invalid Google account information",
+        });
+      }
 
       let user = await User.findOne({ where: { email: payload.email } });
       if (!user) {
+        console.log("Creating new user with Google data");
         user = await User.create({
           username: payload.name,
           email: payload.email,
@@ -38,15 +75,20 @@ module.exports = class UserController {
           password: Math.random().toString(36).substring(2),
           address: "Not provided",
         });
+      } else {
+        console.log("Found existing user with Google email");
       }
 
       const access_token = signToken({ id: user.id });
+
+      console.log("Successful Google login for user ID:", user.id);
       res.status(200).json({
         access_token,
         userId: user.id,
         role: user.role,
       });
     } catch (error) {
+      console.error("Unexpected error in googleLogin:", error);
       next(error);
     }
   }
