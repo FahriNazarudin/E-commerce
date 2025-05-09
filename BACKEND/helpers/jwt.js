@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET = process.env.SECRET_KEY || "SHHHHH";
+const SECRET = process.env.SECRET_KEY
 
 
 const signToken = (payload) => {
